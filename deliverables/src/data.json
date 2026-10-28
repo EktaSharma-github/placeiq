@@ -1,0 +1,1962 @@
+{
+  "counts": {
+    "program": 3,
+    "placement_cycle": 3,
+    "company": 16,
+    "person": 211,
+    "student": 180,
+    "recruiter": 20,
+    "alumnus": 10,
+    "committee_member": 5,
+    "job_role": 25,
+    "internship_role": 10,
+    "fulltime_role": 15,
+    "eligibility": 54,
+    "skill": 12,
+    "student_skill": 1146,
+    "job_required_skill": 59,
+    "application": 1184,
+    "interview_round": 66,
+    "interview": 1057,
+    "offer": 96,
+    "placement_log": 144,
+    "sponsor": 5,
+    "sponsorship": 5
+  },
+  "catalog": {
+    "tables": 22,
+    "constraints": {
+      "t": 3,
+      "c": 45,
+      "u": 17,
+      "x": 1,
+      "n": 100,
+      "f": 30,
+      "p": 22
+    },
+    "indexes": 55,
+    "triggers": 9
+  },
+  "cycles": [
+    {
+      "cycle_id": 1,
+      "cycle_name": "Summer Placements 2026-27",
+      "participants": 148,
+      "placed": 31,
+      "offer_pending": 0,
+      "max_ctc": null,
+      "avg_ctc": null,
+      "median_ctc": null,
+      "max_stipend": 200000.0,
+      "avg_stipend": 129032.0
+    },
+    {
+      "cycle_id": 2,
+      "cycle_name": "Final Placements 2026-27",
+      "participants": 177,
+      "placed": 30,
+      "offer_pending": 10,
+      "max_ctc": 38.0,
+      "avg_ctc": 28.48,
+      "median_ctc": 29.0,
+      "max_stipend": null,
+      "avg_stipend": null
+    }
+  ],
+  "offer_status": [
+    {
+      "cycle_id": 1,
+      "status": "ACCEPTED",
+      "n": 31
+    },
+    {
+      "cycle_id": 1,
+      "status": "DECLINED",
+      "n": 8
+    },
+    {
+      "cycle_id": 1,
+      "status": "EXPIRED",
+      "n": 6
+    },
+    {
+      "cycle_id": 2,
+      "status": "ACCEPTED",
+      "n": 30
+    },
+    {
+      "cycle_id": 2,
+      "status": "DECLINED",
+      "n": 8
+    },
+    {
+      "cycle_id": 2,
+      "status": "EXPIRED",
+      "n": 3
+    },
+    {
+      "cycle_id": 2,
+      "status": "PENDING",
+      "n": 10
+    }
+  ],
+  "program_status": [
+    {
+      "program_code": "PGDBA",
+      "placement_status": "IN_PROCESS",
+      "n": 23
+    },
+    {
+      "program_code": "PGDBA",
+      "placement_status": "NOT_APPLIED",
+      "n": 2
+    },
+    {
+      "program_code": "PGDBA",
+      "placement_status": "OFFER_PENDING",
+      "n": 3
+    },
+    {
+      "program_code": "PGDBA",
+      "placement_status": "OPTED_OUT",
+      "n": 1
+    },
+    {
+      "program_code": "PGDBA",
+      "placement_status": "PLACED",
+      "n": 12
+    },
+    {
+      "program_code": "PGDBA",
+      "placement_status": "UNPLACED",
+      "n": 19
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "IN_PROCESS",
+      "n": 36
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "NOT_APPLIED",
+      "n": 8
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "OFFER_PENDING",
+      "n": 7
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "OPTED_OUT",
+      "n": 1
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "PLACED",
+      "n": 16
+    },
+    {
+      "program_code": "PGP",
+      "placement_status": "UNPLACED",
+      "n": 22
+    },
+    {
+      "program_code": "PGPEX",
+      "placement_status": "IN_PROCESS",
+      "n": 13
+    },
+    {
+      "program_code": "PGPEX",
+      "placement_status": "NOT_APPLIED",
+      "n": 5
+    },
+    {
+      "program_code": "PGPEX",
+      "placement_status": "OPTED_OUT",
+      "n": 1
+    },
+    {
+      "program_code": "PGPEX",
+      "placement_status": "PLACED",
+      "n": 2
+    },
+    {
+      "program_code": "PGPEX",
+      "placement_status": "UNPLACED",
+      "n": 9
+    }
+  ],
+  "queries": [
+    {
+      "id": 1,
+      "title": "Which recruiters are the hardest to crack?",
+      "question": "Among final-placement companies that have finished their process and attracted at least 20 applicants, which ones make offers to a SMALLER share of applicants than the campus-wide average? Students use this to decide where to spend their preparation time.",
+      "concepts": "4-way join through a view, outer join (not every application has an offer), aggregate FILTER, GROUP BY, HAVING that compares a group aggregate with a scalar subquery.",
+      "algebra": "\u03b3 company; count(*)\u2192applicants, count(offer_id)\u2192offers\n( Application \u27d5 Offer \u22c8 JobDetails )\nthen \u03c3 applicants \u2265 20 \u2227 offers/applicants < avg_rate",
+      "note": "",
+      "sql": "SELECT d.company_name,\n       d.sector,\n       count(*)                                                AS applicants,\n       count(*) FILTER (WHERE iv.interviewed)                  AS interviewed,\n       count(o.offer_id)                                       AS offers,\n       count(o.offer_id) FILTER (WHERE o.status = 'ACCEPTED')  AS accepted,\n       round(100.0 * count(o.offer_id) / count(*), 1)          AS offer_rate_pct\nFROM application a\nJOIN v_job_details d ON d.job_id = a.job_id\nLEFT JOIN offer o    ON o.student_id = a.student_id AND o.job_id = a.job_id\nLEFT JOIN LATERAL (SELECT TRUE AS interviewed\n                   FROM interview i\n                   WHERE i.student_id = a.student_id AND i.job_id = a.job_id\n                   LIMIT 1) iv ON TRUE\nWHERE d.cycle_type = 'FINAL'\n  AND EXISTS (SELECT 1 FROM offer x WHERE x.job_id = a.job_id)        -- process complete\nGROUP BY d.company_id, d.company_name, d.sector\nHAVING count(*) >= 20\n   AND count(o.offer_id)::numeric / count(*) <\n       (SELECT count(o2.offer_id)::numeric / count(*)                 -- campus-wide offer rate\n        FROM application a2\n        JOIN job_role j2 ON j2.job_id = a2.job_id\n        LEFT JOIN offer o2 ON o2.student_id = a2.student_id AND o2.job_id = a2.job_id\n        WHERE j2.cycle_id = 2\n          AND EXISTS (SELECT 1 FROM offer x WHERE x.job_id = a2.job_id))\nORDER BY offer_rate_pct",
+      "columns": [
+        "company_name",
+        "sector",
+        "applicants",
+        "interviewed",
+        "offers",
+        "accepted",
+        "offer_rate_pct"
+      ],
+      "rows": [
+        [
+          "Meridian Insurance",
+          "BFSI",
+          58,
+          22,
+          5,
+          1,
+          8.6
+        ],
+        [
+          "Kestrel Capital",
+          "BFSI",
+          42,
+          23,
+          4,
+          4,
+          9.5
+        ],
+        [
+          "Lumen Technologies",
+          "TECHNOLOGY",
+          63,
+          27,
+          6,
+          2,
+          9.5
+        ],
+        [
+          "Vertex Bank",
+          "BFSI",
+          72,
+          37,
+          7,
+          6,
+          9.7
+        ],
+        [
+          "DataSutra Labs",
+          "ANALYTICS",
+          70,
+          30,
+          7,
+          2,
+          10.0
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Talent match for a newly posted job (relational division)",
+      "question": "Job 25 (Tidewater Logistics, Supply Chain Analytics Lead) has just been posted. Which students are eligible, not yet placed this cycle, and hold EVERY skill the job requires at the required level? The committee will nudge them to apply.",
+      "concepts": "Division expressed as \"there is NO required skill that the student does NOT have\" (double NOT EXISTS, two nested correlated subqueries), plus an anti-join for \"not yet placed\".",
+      "algebra": "Qualified(student, skill) = \u03c0 student,skill (\u03c3 proficiency \u2265 min (StudentSkill \u22c8 JobRequiredSkill_25))\nResult = Qualified \u00f7 \u03c0 skill (\u03c3 job_id = 25 (JobRequiredSkill))",
+      "note": "",
+      "sql": "WITH params AS (SELECT 25 AS job_id)\nSELECT s.roll_no,\n       concat_ws(' ', p.first_name, p.last_name) AS student_name,\n       pr.program_code,\n       s.cgpa\nFROM params\nJOIN eligibility e ON e.job_id = params.job_id\nJOIN student s     ON s.program_id = e.program_id\nJOIN person p      ON p.person_id = s.person_id\nJOIN program pr    ON pr.program_id = s.program_id\nWHERE s.cgpa >= e.min_cgpa\n  AND s.active_backlogs <= e.max_backlogs\n  AND NOT s.opted_out\n  -- division: no required skill exists ...\n  AND NOT EXISTS (\n        SELECT 1\n        FROM job_required_skill r\n        WHERE r.job_id = params.job_id\n          -- ... that this student lacks at the required level\n          AND NOT EXISTS (\n                SELECT 1\n                FROM student_skill ss\n                WHERE ss.student_id  = s.person_id\n                  AND ss.skill_id    = r.skill_id\n                  AND ss.proficiency >= r.min_proficiency))\n  -- anti-join: not already placed in this job's cycle\n  AND NOT EXISTS (\n        SELECT 1\n        FROM offer o\n        JOIN job_role j  ON j.job_id = o.job_id\n        JOIN job_role jt ON jt.job_id = params.job_id\n        WHERE o.student_id = s.person_id\n          AND o.status = 'ACCEPTED'\n          AND j.cycle_id = jt.cycle_id)\nORDER BY s.cgpa DESC",
+      "columns": [
+        "roll_no",
+        "student_name",
+        "program_code",
+        "cgpa"
+      ],
+      "rows": [
+        [
+          "DBA12-039",
+          "Tanvi Jain",
+          "PGDBA",
+          9.04
+        ],
+        [
+          "DBA12-059",
+          "Kavya Patel",
+          "PGDBA",
+          8.4
+        ],
+        [
+          "DBA12-046",
+          "Akash Shah",
+          "PGDBA",
+          8.01
+        ],
+        [
+          "DBA12-058",
+          "Chetan Iyer",
+          "PGDBA",
+          7.87
+        ],
+        [
+          "DBA12-036",
+          "Ishaan Ghosh",
+          "PGDBA",
+          7.7
+        ],
+        [
+          "DBA12-009",
+          "Priya Jain",
+          "PGDBA",
+          7.44
+        ],
+        [
+          "DBA12-038",
+          "Rohan Singh",
+          "PGDBA",
+          7.12
+        ],
+        [
+          "PGP62-079",
+          "Kavya Verma",
+          "PGP",
+          6.99
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Final-placement CTC leaderboard by program (window functions)",
+      "question": "For each program, who are the top 3 earners in final placements so far, how far above their program's average are they, and which pay quartile are they in? This feeds the placement report.",
+      "concepts": "Query over a VIEW (v_placement_status, a derived attribute); a named WINDOW with PARTITION BY + ORDER BY; DENSE_RANK (ties share a rank, no gaps), NTILE, AVG() OVER (aggregates without collapsing rows); a subquery to filter on a window result (WHERE cannot see it directly).",
+      "algebra": "",
+      "note": "DENSE_RANK gives tied CTCs the same rank; NTILE does not. It deals rows into 4 equal buckets, so two students with the same CTC can land in different quartiles. Use PERCENT_RANK() if ties must stay together.",
+      "sql": "SELECT program_code, rank_in_program, roll_no, student_name, placed_with, ctc_lpa,\n       program_avg_ctc, above_avg_by, pay_quartile, placed_in_program\nFROM (\n    SELECT program_code,\n           roll_no,\n           student_name,\n           placed_with,\n           ctc_lpa,\n           DENSE_RANK() OVER w                                           AS rank_in_program,\n           round(AVG(ctc_lpa) OVER (PARTITION BY program_code), 2)       AS program_avg_ctc,\n           round(ctc_lpa - AVG(ctc_lpa) OVER (PARTITION BY program_code), 2) AS above_avg_by,\n           NTILE(4) OVER w                                               AS pay_quartile,\n           COUNT(*) OVER (PARTITION BY program_code)                     AS placed_in_program\n    FROM v_placement_status\n    WHERE cycle_id = 2 AND placement_status = 'PLACED'\n    WINDOW w AS (PARTITION BY program_code ORDER BY ctc_lpa DESC)\n) ranked\nWHERE rank_in_program <= 3\nORDER BY program_code, rank_in_program, roll_no",
+      "columns": [
+        "program_code",
+        "rank_in_program",
+        "roll_no",
+        "student_name",
+        "placed_with",
+        "ctc_lpa",
+        "program_avg_ctc",
+        "above_avg_by",
+        "pay_quartile",
+        "placed_in_program"
+      ],
+      "rows": [
+        [
+          "PGDBA",
+          1,
+          "DBA12-019",
+          "Kavya Verma",
+          "Kestrel Capital",
+          38.0,
+          29.71,
+          8.29,
+          1,
+          12
+        ],
+        [
+          "PGDBA",
+          1,
+          "DBA12-026",
+          "Pranav Mishra",
+          "Kestrel Capital",
+          38.0,
+          29.71,
+          8.29,
+          1,
+          12
+        ],
+        [
+          "PGDBA",
+          2,
+          "DBA12-037",
+          "Neha Mukherjee",
+          "Northbridge Consulting",
+          34.0,
+          29.71,
+          4.29,
+          1,
+          12
+        ],
+        [
+          "PGDBA",
+          3,
+          "DBA12-003",
+          "Pooja Chatterjee",
+          "Lumen Technologies",
+          32.0,
+          29.71,
+          2.29,
+          2,
+          12
+        ],
+        [
+          "PGDBA",
+          3,
+          "DBA12-033",
+          "Siddharth Chatterjee",
+          "Lumen Technologies",
+          32.0,
+          29.71,
+          2.29,
+          2,
+          12
+        ],
+        [
+          "PGP",
+          1,
+          "PGP62-049",
+          "Ananya Verma",
+          "Kestrel Capital",
+          38.0,
+          27.78,
+          10.22,
+          1,
+          16
+        ],
+        [
+          "PGP",
+          1,
+          "PGP62-063",
+          "Pooja Chatterjee",
+          "Kestrel Capital",
+          38.0,
+          27.78,
+          10.22,
+          1,
+          16
+        ],
+        [
+          "PGP",
+          2,
+          "PGP62-003",
+          "Aditi Chatterjee",
+          "Northbridge Consulting",
+          34.0,
+          27.78,
+          6.22,
+          1,
+          16
+        ],
+        [
+          "PGP",
+          2,
+          "PGP62-007",
+          "Sanya Mukherjee",
+          "Northbridge Consulting",
+          34.0,
+          27.78,
+          6.22,
+          1,
+          16
+        ],
+        [
+          "PGP",
+          2,
+          "PGP62-051",
+          "Meera Rao",
+          "Northbridge Consulting",
+          34.0,
+          27.78,
+          6.22,
+          2,
+          16
+        ],
+        [
+          "PGP",
+          3,
+          "PGP62-053",
+          "Siddharth Kumar",
+          "Arcadia Strategy Partners",
+          31.5,
+          27.78,
+          3.72,
+          2,
+          16
+        ],
+        [
+          "PGP",
+          3,
+          "PGP62-077",
+          "Zoya Gupta",
+          "Arcadia Strategy Partners",
+          31.5,
+          27.78,
+          3.72,
+          2,
+          16
+        ],
+        [
+          "PGPEX",
+          1,
+          "PGX20-029",
+          "Kavya Patel",
+          "Arcadia Strategy Partners",
+          31.5,
+          26.75,
+          4.75,
+          1,
+          2
+        ],
+        [
+          "PGPEX",
+          2,
+          "PGX20-027",
+          "Zoya Sharma",
+          "Vertex Bank",
+          22.0,
+          26.75,
+          -4.75,
+          2,
+          2
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Placement velocity: day-by-day cumulative progress",
+      "question": "During final placements, how many students from each program accepted an offer each day, and what share of each batch is placed by the end of each day? (The committee's daily progress chart.)",
+      "concepts": "Multiple CTEs; generate_series to build a calendar (so days with zero placements still appear); CROSS JOIN calendar x program; LEFT OUTER JOIN to the facts; running total with SUM() OVER (PARTITION BY ... ORDER BY ...).",
+      "algebra": "",
+      "note": "",
+      "sql": "WITH calendar AS (\n    SELECT d::date AS day\n    FROM generate_series(DATE '2026-10-18', DATE '2026-10-28', INTERVAL '1 day') AS d\n),\nbatch AS (\n    SELECT pr.program_id, pr.program_code,\n           count(*) FILTER (WHERE NOT s.opted_out) AS batch_size\n    FROM program pr JOIN student s ON s.program_id = pr.program_id\n    GROUP BY pr.program_id, pr.program_code\n),\ndaily AS (\n    SELECT s.program_id,\n           (o.responded_at AT TIME ZONE 'Asia/Kolkata')::date AS day,\n           count(*) AS accepted\n    FROM offer o\n    JOIN job_role j ON j.job_id = o.job_id\n    JOIN student s  ON s.person_id = o.student_id\n    WHERE j.cycle_id = 2 AND o.status = 'ACCEPTED'\n    GROUP BY s.program_id, (o.responded_at AT TIME ZONE 'Asia/Kolkata')::date\n)\nSELECT c.day,\n       b.program_code,\n       COALESCE(dl.accepted, 0)                                         AS placed_today,\n       SUM(COALESCE(dl.accepted, 0)) OVER run                           AS placed_cumulative,\n       b.batch_size,\n       round(100.0 * SUM(COALESCE(dl.accepted, 0)) OVER run / b.batch_size, 1) AS pct_batch_placed\nFROM calendar c\nCROSS JOIN batch b\nLEFT JOIN daily dl ON dl.program_id = b.program_id AND dl.day = c.day\nWINDOW run AS (PARTITION BY b.program_id ORDER BY c.day)\nORDER BY b.program_code, c.day",
+      "columns": [
+        "day",
+        "program_code",
+        "placed_today",
+        "placed_cumulative",
+        "batch_size",
+        "pct_batch_placed"
+      ],
+      "rows": [
+        [
+          "2026-10-18",
+          "PGDBA",
+          0,
+          0.0,
+          59,
+          0.0
+        ],
+        [
+          "2026-10-19",
+          "PGDBA",
+          1,
+          1.0,
+          59,
+          1.7
+        ],
+        [
+          "2026-10-20",
+          "PGDBA",
+          1,
+          2.0,
+          59,
+          3.4
+        ],
+        [
+          "2026-10-21",
+          "PGDBA",
+          2,
+          4.0,
+          59,
+          6.8
+        ],
+        [
+          "2026-10-22",
+          "PGDBA",
+          3,
+          7.0,
+          59,
+          11.9
+        ],
+        [
+          "2026-10-23",
+          "PGDBA",
+          0,
+          7.0,
+          59,
+          11.9
+        ],
+        [
+          "2026-10-24",
+          "PGDBA",
+          2,
+          9.0,
+          59,
+          15.3
+        ],
+        [
+          "2026-10-25",
+          "PGDBA",
+          1,
+          10.0,
+          59,
+          16.9
+        ],
+        [
+          "2026-10-26",
+          "PGDBA",
+          2,
+          12.0,
+          59,
+          20.3
+        ],
+        [
+          "2026-10-27",
+          "PGDBA",
+          0,
+          12.0,
+          59,
+          20.3
+        ],
+        [
+          "2026-10-28",
+          "PGDBA",
+          0,
+          12.0,
+          59,
+          20.3
+        ],
+        [
+          "2026-10-18",
+          "PGP",
+          0,
+          0.0,
+          89,
+          0.0
+        ],
+        [
+          "2026-10-19",
+          "PGP",
+          3,
+          3.0,
+          89,
+          3.4
+        ],
+        [
+          "2026-10-20",
+          "PGP",
+          2,
+          5.0,
+          89,
+          5.6
+        ],
+        [
+          "2026-10-21",
+          "PGP",
+          2,
+          7.0,
+          89,
+          7.9
+        ],
+        [
+          "2026-10-22",
+          "PGP",
+          2,
+          9.0,
+          89,
+          10.1
+        ],
+        [
+          "2026-10-23",
+          "PGP",
+          1,
+          10.0,
+          89,
+          11.2
+        ],
+        [
+          "2026-10-24",
+          "PGP",
+          0,
+          10.0,
+          89,
+          11.2
+        ],
+        [
+          "2026-10-25",
+          "PGP",
+          0,
+          10.0,
+          89,
+          11.2
+        ],
+        [
+          "2026-10-26",
+          "PGP",
+          0,
+          10.0,
+          89,
+          11.2
+        ],
+        [
+          "2026-10-27",
+          "PGP",
+          2,
+          12.0,
+          89,
+          13.5
+        ],
+        [
+          "2026-10-28",
+          "PGP",
+          4,
+          16.0,
+          89,
+          18.0
+        ],
+        [
+          "2026-10-18",
+          "PGPEX",
+          0,
+          0.0,
+          29,
+          0.0
+        ],
+        [
+          "2026-10-19",
+          "PGPEX",
+          0,
+          0.0,
+          29,
+          0.0
+        ],
+        [
+          "2026-10-20",
+          "PGPEX",
+          1,
+          1.0,
+          29,
+          3.4
+        ],
+        [
+          "2026-10-21",
+          "PGPEX",
+          0,
+          1.0,
+          29,
+          3.4
+        ],
+        [
+          "2026-10-22",
+          "PGPEX",
+          1,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-23",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-24",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-25",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-26",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-27",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ],
+        [
+          "2026-10-28",
+          "PGPEX",
+          0,
+          2.0,
+          29,
+          6.9
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Hidden gems: strong academics, lost in the interview room",
+      "question": "Which students are still unplaced in final placements even though, at a company that rejected them in an interview round, their CGPA was HIGHER than the average CGPA of the students that company selected? These students need interview coaching, not academic help, and the failed round says which kind.",
+      "concepts": "Correlated subquery (re-evaluated for each application row) used both in SELECT and in WHERE; LATERAL join to find the eliminating round; join on a composite key (job_id, round_no); built on a VIEW.",
+      "algebra": "",
+      "note": "",
+      "sql": "SELECT ps.roll_no,\n       ps.student_name,\n       ps.program_code,\n       ps.cgpa,\n       d.company_name,\n       elim.round_no || ' - ' || elim.round_type || ' (' || elim.result || ')' AS eliminated_in,\n       (SELECT round(avg(s2.cgpa), 2)\n        FROM offer o2 JOIN student s2 ON s2.person_id = o2.student_id\n        WHERE o2.job_id = a.job_id)                                        AS selected_avg_cgpa\nFROM v_placement_status ps\nJOIN application a   ON a.student_id = ps.student_id AND a.status = 'REJECTED'\nJOIN v_job_details d ON d.job_id = a.job_id AND d.cycle_id = ps.cycle_id\nJOIN LATERAL (\n        SELECT i.round_no, r.round_type, i.result\n        FROM interview i\n        JOIN interview_round r ON r.job_id = i.job_id AND r.round_no = i.round_no\n        WHERE i.student_id = a.student_id AND i.job_id = a.job_id\n          AND i.result IN ('NOT_CLEARED', 'ABSENT')) elim ON TRUE\nWHERE ps.cycle_id = 2\n  AND ps.placement_status IN ('UNPLACED', 'IN_PROCESS')\n  AND ps.cgpa > (SELECT avg(s2.cgpa)                                       -- correlated on a.job_id\n                 FROM offer o2 JOIN student s2 ON s2.person_id = o2.student_id\n                 WHERE o2.job_id = a.job_id)\nORDER BY ps.cgpa DESC, d.company_name",
+      "columns": [
+        "roll_no",
+        "student_name",
+        "program_code",
+        "cgpa",
+        "company_name",
+        "eliminated_in",
+        "selected_avg_cgpa"
+      ],
+      "rows": [
+        [
+          "DBA12-039",
+          "Tanvi Jain",
+          "PGDBA",
+          9.04,
+          "Helix Analytics",
+          "3 - HR (ABSENT)",
+          8.81
+        ],
+        [
+          "DBA12-049",
+          "Priya Verma",
+          "PGDBA",
+          8.98,
+          "Quanta Cloud",
+          "1 - APTITUDE (NOT_CLEARED)",
+          8.33
+        ],
+        [
+          "DBA12-035",
+          "Bhavya Sen",
+          "PGDBA",
+          8.51,
+          "Quanta Cloud",
+          "1 - APTITUDE (NOT_CLEARED)",
+          8.33
+        ]
+      ]
+    }
+  ],
+  "role_privileges": [
+    {
+      "table_name": "person",
+      "privilege_type": "SELECT"
+    },
+    {
+      "table_name": "student",
+      "privilege_type": "SELECT"
+    }
+  ],
+  "tests": {
+    "started_utc": "2026-10-28T17:41:10.035949+00:00",
+    "finished_utc": "2026-10-28T17:41:33.210208+00:00",
+    "environment": {
+      "postgres": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
+      "python": "3.12.7",
+      "pytest": "8.3.3",
+      "psycopg": "3.2.9",
+      "os": "Windows 11"
+    },
+    "totals": {
+      "total": 91,
+      "passed": 91,
+      "failed": 0,
+      "skipped": 0
+    },
+    "tests": [
+      {
+        "id": "TC-API-01",
+        "requirement": "API",
+        "title": "GET /api/health reports the placeiq database as reachable",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_health",
+        "outcome": "passed",
+        "duration_ms": 91.1,
+        "message": ""
+      },
+      {
+        "id": "TC-API-02",
+        "requirement": "API",
+        "title": "GET /api/summary returns the final-cycle KPIs (30 of 177 placed)",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_summary_kpis",
+        "outcome": "passed",
+        "duration_ms": 99.7,
+        "message": ""
+      },
+      {
+        "id": "TC-API-03",
+        "requirement": "API",
+        "title": "Student search is case-insensitive and matches names",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_student_search",
+        "outcome": "passed",
+        "duration_ms": 104.7,
+        "message": ""
+      },
+      {
+        "id": "TC-API-04",
+        "requirement": "API",
+        "title": "An unknown roll number returns HTTP 404",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_unknown_student_404",
+        "outcome": "passed",
+        "duration_ms": 62.8,
+        "message": ""
+      },
+      {
+        "id": "TC-API-05",
+        "requirement": "API",
+        "title": "Jobs list has 25 jobs; job 19's funnel shows 70 applicants",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_job_endpoints",
+        "outcome": "passed",
+        "duration_ms": 173.8,
+        "message": ""
+      },
+      {
+        "id": "TC-API-06",
+        "requirement": "API",
+        "title": "All five analytical queries run through the API in a read-only transaction",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_queries_run",
+        "outcome": "passed",
+        "duration_ms": 409.7,
+        "message": ""
+      },
+      {
+        "id": "TC-API-07",
+        "requirement": "API",
+        "title": "A rejected application returns HTTP 409 with the SQLSTATE and the trigger that raised it",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_rule_violation_is_explained",
+        "outcome": "passed",
+        "duration_ms": 71.9,
+        "message": ""
+      },
+      {
+        "id": "TC-API-08",
+        "requirement": "API",
+        "title": "Accepting an offer via the API returns the cascade the trigger performed",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_accept_offer_returns_cascade",
+        "outcome": "passed",
+        "duration_ms": 459.7,
+        "message": ""
+      },
+      {
+        "id": "TC-API-09",
+        "requirement": "API",
+        "title": "Declining an offer that is not pending returns HTTP 409",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_decline_non_pending_conflict",
+        "outcome": "passed",
+        "duration_ms": 191.6,
+        "message": ""
+      },
+      {
+        "id": "TC-API-10",
+        "requirement": "UI",
+        "title": "The single-page UI and its assets are served",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_ui_served",
+        "outcome": "passed",
+        "duration_ms": 101.5,
+        "message": ""
+      },
+      {
+        "id": "TC-API-11",
+        "requirement": "API",
+        "title": "POST /api/admin/reset rebuilds the seeded database",
+        "detail": "",
+        "module": "api",
+        "nodeid": "tests/test_api.py::test_reset_endpoint",
+        "outcome": "passed",
+        "duration_ms": 1113.5,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-01",
+        "requirement": "BR-3",
+        "title": "CGPA outside 0-10 is rejected by a CHECK constraint",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_cgpa_domain",
+        "outcome": "passed",
+        "duration_ms": 17.6,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-02",
+        "requirement": "Domain",
+        "title": "Malformed or upper-case e-mail addresses are rejected",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_email_domain",
+        "outcome": "passed",
+        "duration_ms": 5.5,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-03",
+        "requirement": "BR-2",
+        "title": "A duplicate roll number is rejected (UNIQUE alternate key)",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_roll_number_alternate_key",
+        "outcome": "passed",
+        "duration_ms": 16.8,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-04",
+        "requirement": "BR-4",
+        "title": "A full-time job cannot also be given an internship row (disjoint)",
+        "detail": "The composite FK (job_id, role_type) only matches when role_type = 'INTERNSHIP'.",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_disjoint_specialisation",
+        "outcome": "passed",
+        "duration_ms": 7.8,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-05",
+        "requirement": "BR-4",
+        "title": "A job without any subtype row fails the deferred totality check",
+        "detail": "Inserting the job and its subtype in the same transaction passes.",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_total_specialisation",
+        "outcome": "passed",
+        "duration_ms": 16.3,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-06",
+        "requirement": "BR-5",
+        "title": "A recruiter cannot post a job for a company they do not work for",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_recruiter_must_work_for_company",
+        "outcome": "passed",
+        "duration_ms": 7.7,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-07",
+        "requirement": "BR-6",
+        "title": "A student cannot apply to the same job twice",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_apply_at_most_once",
+        "outcome": "passed",
+        "duration_ms": 20.7,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-08",
+        "requirement": "BR-7",
+        "title": "An interview in a round the job does not have is rejected (FK to weak entity)",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_interview_round_must_exist",
+        "outcome": "passed",
+        "duration_ms": 16.0,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-09",
+        "requirement": "BR-7",
+        "title": "A student cannot be interviewed for a job they never applied to (aggregation FK)",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_interview_requires_application",
+        "outcome": "passed",
+        "duration_ms": 10.3,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-10",
+        "requirement": "BR-8",
+        "title": "Overlapping interview slots for one student are rejected; back-to-back slots are allowed",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_no_double_booking",
+        "outcome": "passed",
+        "duration_ms": 11.2,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-11",
+        "requirement": "Domain",
+        "title": "An interview that ends before it starts is rejected",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_slot_order",
+        "outcome": "passed",
+        "duration_ms": 4.6,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-12",
+        "requirement": "BR-9",
+        "title": "A second offer on the same application is rejected",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_one_offer_per_application",
+        "outcome": "passed",
+        "duration_ms": 13.3,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-13",
+        "requirement": "BR-10",
+        "title": "ACCEPTED or DECLINED offers must carry responded_at",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_responded_at_iff_responded",
+        "outcome": "passed",
+        "duration_ms": 12.6,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-14",
+        "requirement": "BR-13",
+        "title": "A company cannot claim a sponsor row typed ALUMNUS (category / union type)",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_sponsor_union_type",
+        "outcome": "passed",
+        "duration_ms": 8.4,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-15",
+        "requirement": "BR-15",
+        "title": "Deleting a student who holds an offer is blocked (CASCADE then RESTRICT)",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_restrict_blocks_cascade",
+        "outcome": "passed",
+        "duration_ms": 27.4,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-16",
+        "requirement": "Referential actions",
+        "title": "Deleting a student with no offers cascades to all dependent rows",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_cascade_delete_student_without_offers",
+        "outcome": "passed",
+        "duration_ms": 52.2,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-17",
+        "requirement": "Referential actions",
+        "title": "Deleting a recruiter nulls job_role.posted_by but keeps the job",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_set_null_on_recruiter_delete",
+        "outcome": "passed",
+        "duration_ms": 34.0,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-18",
+        "requirement": "Referential actions",
+        "title": "A program that still has students cannot be deleted",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_program_restrict",
+        "outcome": "passed",
+        "duration_ms": 10.7,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-19",
+        "requirement": "Domain",
+        "title": "Fixed pay above total CTC is rejected",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_fixed_pay_not_above_ctc",
+        "outcome": "passed",
+        "duration_ms": 6.0,
+        "message": ""
+      },
+      {
+        "id": "TC-CON-20",
+        "requirement": "Domain",
+        "title": "A placement cycle that ends before it starts is rejected",
+        "detail": "",
+        "module": "constraints",
+        "nodeid": "tests/test_constraints.py::test_cycle_dates",
+        "outcome": "passed",
+        "duration_ms": 7.3,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-01",
+        "requirement": "Data",
+        "title": "The seed produces the documented volumes (reproducible with setseed)",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_seed_volumes",
+        "outcome": "passed",
+        "duration_ms": 33.7,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-02",
+        "requirement": "Data",
+        "title": "Rebuilding the database twice produces byte-identical application and offer data",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_seed_is_deterministic",
+        "outcome": "passed",
+        "duration_ms": 1255.6,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-03",
+        "requirement": "BR-12",
+        "title": "No student holds more than one accepted offer in any cycle",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_one_accepted_offer_per_cycle",
+        "outcome": "passed",
+        "duration_ms": 9.5,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-04",
+        "requirement": "BR-8",
+        "title": "No student has two overlapping interview slots",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_no_overlapping_interviews",
+        "outcome": "passed",
+        "duration_ms": 14.6,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-05",
+        "requirement": "BR-11",
+        "title": "Every application meets its job's program, CGPA, backlog and deadline rules",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_applications_meet_eligibility",
+        "outcome": "passed",
+        "duration_ms": 10.0,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-06",
+        "requirement": "Data",
+        "title": "Status timestamps never precede the event they follow",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_timestamps_consistent",
+        "outcome": "passed",
+        "duration_ms": 6.1,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-07",
+        "requirement": "Offer rule",
+        "title": "Every application that received an offer has status OFFERED",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_offers_mark_applications",
+        "outcome": "passed",
+        "duration_ms": 6.2,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-08",
+        "requirement": "BR-4",
+        "title": "Every job has exactly one subtype row (disjoint and total)",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_every_job_has_exactly_one_subtype",
+        "outcome": "passed",
+        "duration_ms": 5.7,
+        "message": ""
+      },
+      {
+        "id": "TC-DAT-09",
+        "requirement": "Data",
+        "title": "A student only sits round k of a job after clearing round k-1",
+        "detail": "",
+        "module": "data",
+        "nodeid": "tests/test_data.py::test_round_progression",
+        "outcome": "passed",
+        "duration_ms": 4.6,
+        "message": ""
+      },
+      {
+        "id": "TC-PRF-01",
+        "requirement": "Indexing",
+        "title": "A composite B-tree index on (job_id, status) replaces the sequential scan and is at least 10x faster",
+        "detail": "",
+        "module": "performance",
+        "nodeid": "tests/test_performance.py::test_composite_index_speedup",
+        "outcome": "passed",
+        "duration_ms": 1093.5,
+        "message": ""
+      },
+      {
+        "id": "TC-PRF-02",
+        "requirement": "Indexing",
+        "title": "A partial index on only the open rows is far smaller than the full composite index and still used",
+        "detail": "",
+        "module": "performance",
+        "nodeid": "tests/test_performance.py::test_partial_index_smaller",
+        "outcome": "passed",
+        "duration_ms": 981.2,
+        "message": ""
+      },
+      {
+        "id": "TC-PRF-03",
+        "requirement": "Indexing",
+        "title": "Without the leading column (job_id) the composite index cannot seek: the status-only query touches 50x more blocks",
+        "detail": "Observed on PostgreSQL 18: the planner may still use the index, but only by reading all of it (or it falls back to a sequential scan), never by seeking.",
+        "module": "performance",
+        "nodeid": "tests/test_performance.py::test_leading_column_rule",
+        "outcome": "passed",
+        "duration_ms": 888.8,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-01",
+        "requirement": "Queries",
+        "title": "All five queries are present in 05_queries.sql and parse",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_all_five_queries_parsed",
+        "outcome": "passed",
+        "duration_ms": 0.2,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-02",
+        "requirement": "BR-14",
+        "title": "v_placement_status says PLACED exactly when the student has an accepted offer in that cycle",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_placement_status_matches_offers",
+        "outcome": "passed",
+        "duration_ms": 48.5,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-03",
+        "requirement": "Views",
+        "title": "v_job_details has one row per job with exactly one of CTC / stipend",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_job_details_one_pay_per_job",
+        "outcome": "passed",
+        "duration_ms": 12.6,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-04",
+        "requirement": "Q1",
+        "title": "Every company returned has >= 20 applicants and an offer rate below the campus average",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q1_selectivity",
+        "outcome": "passed",
+        "duration_ms": 24.9,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-05",
+        "requirement": "Q2",
+        "title": "The talent match for job 25 returns the 8 expected students, led by DBA12-039",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q2_talent_match",
+        "outcome": "passed",
+        "duration_ms": 18.5,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-06",
+        "requirement": "Q2",
+        "title": "Double NOT EXISTS gives the same answer as division-by-counting for every job",
+        "detail": "Cross-checks the two classic SQL formulations of relational division.",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q2_division_equals_counting",
+        "outcome": "passed",
+        "duration_ms": 39.9,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-07",
+        "requirement": "Q3",
+        "title": "DENSE_RANK puts the program's highest CTC at rank 1 and above_avg_by equals CTC minus the program average",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q3_ranking",
+        "outcome": "passed",
+        "duration_ms": 33.1,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-08",
+        "requirement": "Q4",
+        "title": "The running total never decreases and ends at the program's number of final placements",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q4_running_total",
+        "outcome": "passed",
+        "duration_ms": 17.5,
+        "message": ""
+      },
+      {
+        "id": "TC-QRY-09",
+        "requirement": "Q5",
+        "title": "Every 'hidden gem' is unplaced, out-scored the selected students' average CGPA, and failed or missed a round",
+        "detail": "",
+        "module": "queries",
+        "nodeid": "tests/test_queries.py::test_q5_hidden_gems",
+        "outcome": "passed",
+        "duration_ms": 56.3,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-01",
+        "requirement": "Design",
+        "title": "The schema contains exactly the 22 designed tables",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_table_count",
+        "outcome": "passed",
+        "duration_ms": 10.1,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-02",
+        "requirement": "Entity integrity",
+        "title": "Every table has a primary key",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_every_table_has_primary_key",
+        "outcome": "passed",
+        "duration_ms": 8.2,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-03",
+        "requirement": "Referential integrity",
+        "title": "All 30 designed foreign keys exist",
+        "detail": "Includes the composite FKs used for disjointness, the sponsor category, the recruiter-company consistency rule and the interview aggregation.",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_foreign_keys_present",
+        "outcome": "passed",
+        "duration_ms": 4.1,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-04",
+        "requirement": "Physical design",
+        "title": "Every foreign key is backed by an index that can find its rows",
+        "detail": "PostgreSQL does not index FK columns automatically; an unindexed FK makes joins and ON DELETE checks scan the whole child table. Covered means: an index whose leading columns are exactly the FK columns, or a UNIQUE index on a leading subset of them (e.g. PK job_id covers FK (job_id, role_type)).",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_foreign_keys_are_indexed",
+        "outcome": "passed",
+        "duration_ms": 6.4,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-05",
+        "requirement": "Domain integrity",
+        "title": "At least 40 CHECK constraints guard attribute domains",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_check_constraints_present",
+        "outcome": "passed",
+        "duration_ms": 4.3,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-06",
+        "requirement": "BR-8",
+        "title": "The interview double-booking EXCLUDE constraint exists",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_exclusion_constraint_present",
+        "outcome": "passed",
+        "duration_ms": 6.7,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-07",
+        "requirement": "Data load",
+        "title": "Identity sequences were advanced past the explicitly inserted ids",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_identity_sequences_ahead_of_data",
+        "outcome": "passed",
+        "duration_ms": 27.9,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-08",
+        "requirement": "Views",
+        "title": "Both views (v_job_details, v_placement_status) exist",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_views_exist",
+        "outcome": "passed",
+        "duration_ms": 7.2,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-09",
+        "requirement": "Business logic",
+        "title": "All 9 business-rule triggers are installed",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_triggers_installed",
+        "outcome": "passed",
+        "duration_ms": 7.4,
+        "message": ""
+      },
+      {
+        "id": "TC-SCH-10",
+        "requirement": "Business logic",
+        "title": "The stored function and both procedures exist",
+        "detail": "",
+        "module": "schema",
+        "nodeid": "tests/test_schema.py::test_routines_installed",
+        "outcome": "passed",
+        "duration_ms": 9.4,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-01",
+        "requirement": "DCL",
+        "title": "placeiq_readonly can SELECT the two tables it was granted",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_readonly_can_read_granted_tables",
+        "outcome": "passed",
+        "duration_ms": 12.2,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-02",
+        "requirement": "DCL",
+        "title": "placeiq_readonly is denied SELECT on tables it was not granted (offer)",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_readonly_cannot_read_other_tables",
+        "outcome": "passed",
+        "duration_ms": 6.5,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-03",
+        "requirement": "DCL",
+        "title": "placeiq_readonly cannot INSERT, UPDATE, DELETE or DROP",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_readonly_cannot_write",
+        "outcome": "passed",
+        "duration_ms": 18.7,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-04",
+        "requirement": "DCL",
+        "title": "placeiq_readonly cannot call pg_read_file (unlike the postgres superuser)",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_readonly_cannot_read_server_files",
+        "outcome": "passed",
+        "duration_ms": 3.6,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-05",
+        "requirement": "Injection",
+        "title": "The deliberately unsafe search returns all 180 students for x' OR '1'='1",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_unsafe_search_leaks_everything",
+        "outcome": "passed",
+        "duration_ms": 73.2,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-06",
+        "requirement": "Injection",
+        "title": "The parameterised search returns 0 rows for the same payload",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_safe_search_treats_input_as_data",
+        "outcome": "passed",
+        "duration_ms": 68.3,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-07",
+        "requirement": "Injection",
+        "title": "A UNION payload on the unsafe path exposes phone numbers, showing the real risk",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_union_injection_exposes_other_columns",
+        "outcome": "passed",
+        "duration_ms": 73.3,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-08",
+        "requirement": "Defence in depth",
+        "title": "A DROP TABLE payload is refused by the read-only transaction and the table survives",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_destructive_injection_is_contained",
+        "outcome": "passed",
+        "duration_ms": 68.4,
+        "message": ""
+      },
+      {
+        "id": "TC-SEC-09",
+        "requirement": "Parameterisation",
+        "title": "An injection string passed to fn_apply_for_job is treated as a literal roll number",
+        "detail": "",
+        "module": "security",
+        "nodeid": "tests/test_security.py::test_parameterised_procedure_is_injection_safe",
+        "outcome": "passed",
+        "duration_ms": 6.9,
+        "message": ""
+      },
+      {
+        "id": "TC-TXN-01",
+        "requirement": "Atomicity",
+        "title": "Rolling back an acceptance undoes the entire trigger cascade",
+        "detail": "",
+        "module": "transactions",
+        "nodeid": "tests/test_transactions.py::test_rollback_undoes_cascade",
+        "outcome": "passed",
+        "duration_ms": 45.1,
+        "message": ""
+      },
+      {
+        "id": "TC-TXN-02",
+        "requirement": "Isolation",
+        "title": "A second session accepting another offer for the same student waits on the student row lock",
+        "detail": "",
+        "module": "transactions",
+        "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_blocks",
+        "outcome": "passed",
+        "duration_ms": 901.2,
+        "message": ""
+      },
+      {
+        "id": "TC-TXN-03",
+        "requirement": "Isolation",
+        "title": "When the first session commits, the waiting session fails and the student ends with exactly one accepted offer",
+        "detail": "Session B waits on the lock, then re-reads its offer, finds it DECLINED by A's trigger, and aborts.",
+        "module": "transactions",
+        "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_serialises",
+        "outcome": "passed",
+        "duration_ms": 948.0,
+        "message": ""
+      },
+      {
+        "id": "TC-TXN-04",
+        "requirement": "Consistency",
+        "title": "COMMIT fails for a job without a subtype and leaves the database unchanged",
+        "detail": "",
+        "module": "transactions",
+        "nodeid": "tests/test_transactions.py::test_deferred_constraint_at_commit",
+        "outcome": "passed",
+        "duration_ms": 105.5,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-01",
+        "requirement": "BR-11",
+        "title": "Applying with a CGPA below the job's cut-off is rejected by the trigger",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_below_cutoff",
+        "outcome": "passed",
+        "duration_ms": 10.2,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-02",
+        "requirement": "BR-11",
+        "title": "A student who opted out of placements cannot apply",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_opted_out",
+        "outcome": "passed",
+        "duration_ms": 9.4,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-03",
+        "requirement": "BR-11",
+        "title": "Applying after the application deadline is rejected",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_after_deadline",
+        "outcome": "passed",
+        "duration_ms": 11.1,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-04",
+        "requirement": "BR-11",
+        "title": "A student whose program is not eligible for the job cannot apply",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_ineligible_program",
+        "outcome": "passed",
+        "duration_ms": 24.8,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-05",
+        "requirement": "BR-11",
+        "title": "A student with more active backlogs than the job allows cannot apply",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_backlogs",
+        "outcome": "passed",
+        "duration_ms": 21.9,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-06",
+        "requirement": "BR-11",
+        "title": "A student already placed in the cycle cannot apply to another job in it",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_rejects_already_placed",
+        "outcome": "passed",
+        "duration_ms": 15.2,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-07",
+        "requirement": "BR-11",
+        "title": "An eligible student's application is accepted with status APPLIED",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_accepts_eligible_application",
+        "outcome": "passed",
+        "duration_ms": 21.8,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-08",
+        "requirement": "Offer rule",
+        "title": "An offer cannot be made on a REJECTED or WITHDRAWN application",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_offer_requires_open_application",
+        "outcome": "passed",
+        "duration_ms": 6.5,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-09",
+        "requirement": "Offer rule",
+        "title": "Making an offer moves the application to OFFERED (AFTER INSERT trigger)",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_offer_marks_application_offered",
+        "outcome": "passed",
+        "duration_ms": 18.9,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-10",
+        "requirement": "BR-12",
+        "title": "Accepting an offer declines other offers, withdraws open applications, frees interview slots and logs it",
+        "detail": "Scenario: PGP62-084 holds a pending offer for job 19, gets a second offer for job 21, and is shortlisted with a scheduled interview for job 22.",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_accept_cascade",
+        "outcome": "passed",
+        "duration_ms": 39.5,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-11",
+        "requirement": "BR-14",
+        "title": "After acceptance the derived status in v_placement_status becomes PLACED",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_view_reflects_acceptance",
+        "outcome": "passed",
+        "duration_ms": 52.7,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-12",
+        "requirement": "BR-12",
+        "title": "An offer that was declined (manually or by the cascade) cannot later be accepted",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_cannot_accept_declined_offer",
+        "outcome": "passed",
+        "duration_ms": 29.4,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-13",
+        "requirement": "BR-12",
+        "title": "A student placed in summer can still apply to and accept a final-placement offer",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_one_offer_rule_is_per_cycle",
+        "outcome": "passed",
+        "duration_ms": 33.3,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-14",
+        "requirement": "BR-12",
+        "title": "Accepting an offer after its response deadline is rejected",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_cannot_accept_after_deadline",
+        "outcome": "passed",
+        "duration_ms": 13.5,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-15",
+        "requirement": "Procedure",
+        "title": "sp_expire_stale_offers() expires overdue pending offers and logs each one",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_expire_stale_offers",
+        "outcome": "passed",
+        "duration_ms": 20.8,
+        "message": ""
+      },
+      {
+        "id": "TC-TRG-16",
+        "requirement": "Function",
+        "title": "fn_apply_for_job reports an unknown roll number clearly",
+        "detail": "",
+        "module": "triggers",
+        "nodeid": "tests/test_triggers.py::test_apply_unknown_roll",
+        "outcome": "passed",
+        "duration_ms": 5.7,
+        "message": ""
+      }
+    ]
+  },
+  "performance": {
+    "seq_scan_ms": 62.609,
+    "composite_index_ms": 0.041,
+    "full_index_kb": 4488,
+    "partial_index_kb": 176,
+    "partial_index_ms": 0.017,
+    "seek_blocks": 3,
+    "status_only_blocks": 4383
+  },
+  "demo_steps": [
+    {
+      "n": 1,
+      "name": "dashboard",
+      "caption": "PlaceIQ dashboard: every number is computed live by SQL views, aggregates and window functions",
+      "file": "demo_01_dashboard.png"
+    },
+    {
+      "n": 2,
+      "name": "students",
+      "caption": "Students: placement status is never stored, it is derived by the view v_placement_status",
+      "file": "demo_02_students.png"
+    },
+    {
+      "n": 3,
+      "name": "profile_before",
+      "caption": "Dev Saxena (PGP62-084): a pending DataSutra offer, and shortlisted for two December interviews",
+      "file": "demo_03_profile_before.png"
+    },
+    {
+      "n": 4,
+      "name": "second_offer",
+      "caption": "Monsoon Foods makes a pre-placement offer. Trigger T2 marks the application OFFERED",
+      "file": "demo_04_second_offer.png"
+    },
+    {
+      "n": 5,
+      "name": "accept_cascade",
+      "caption": "One transaction: the other offer is auto-DECLINED, the open application WITHDRAWN, interview slots freed",
+      "file": "demo_05_accept_cascade.png"
+    },
+    {
+      "n": 6,
+      "name": "placed_rejected",
+      "caption": "Now placed, so the eligibility trigger refuses any further application in this cycle",
+      "file": "demo_06_placed_rejected.png"
+    },
+    {
+      "n": 7,
+      "name": "cgpa_rejected",
+      "caption": "CGPA 6.23 is below job 25's cut-off of 6.50: rejected by fn_check_application_eligibility()",
+      "file": "demo_07_cgpa_rejected.png"
+    },
+    {
+      "n": 8,
+      "name": "talent_apply",
+      "caption": "Tanvi (DBA12-039) passes every eligibility check, so the application is accepted",
+      "file": "demo_08_talent_apply.png"
+    },
+    {
+      "n": 9,
+      "name": "analytics",
+      "caption": "SQL analytics: the five queries run live from 05_queries.sql, read-only",
+      "file": "demo_09_analytics.png"
+    },
+    {
+      "n": 10,
+      "name": "injection",
+      "caption": "Same input: string concatenation leaks all 180 students; the bound parameter returns 0",
+      "file": "demo_10_injection.png"
+    },
+    {
+      "n": 11,
+      "name": "injection_drop",
+      "caption": "DROP TABLE attempt: blocked by the read-only transaction and the least-privilege role",
+      "file": "demo_11_injection_drop.png"
+    },
+    {
+      "n": 12,
+      "name": "audit_log",
+      "caption": "Audit log: every row was written by the trigger, not by application code",
+      "file": "demo_12_audit_log.png"
+    },
+    {
+      "n": 13,
+      "name": "reset",
+      "caption": "Reset demo data rebuilds the database in about a second, so the demo can be repeated",
+      "file": "demo_13_reset.png"
+    }
+  ]
+}

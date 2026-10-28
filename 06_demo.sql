@@ -180,8 +180,8 @@ WHERE job_id = 1234 AND status IN ('APPLIED', 'SHORTLISTED');
 SELECT relname AS index_name, pg_size_pretty(pg_relation_size(oid)) AS size
 FROM pg_class WHERE relname IN ('idx_archive_job_status', 'idx_archive_open');
 
-\echo '\n=== 4.4  Leading-column rule: the composite index cannot help a filter on status alone ==='
-EXPLAIN (COSTS OFF)
+\echo '\n=== 4.4  Leading-column rule: without job_id the index cannot SEEK (whole index or table is read) ==='
+EXPLAIN (ANALYZE, BUFFERS, COSTS OFF, SUMMARY ON)
 SELECT count(*) FROM application_archive WHERE status = 'OFFERED';
 
 

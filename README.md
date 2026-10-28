@@ -139,6 +139,17 @@ The mock data uses a fixed seed, so every run produces the same dataset: 16 fict
 | [run_all.ps1](run_all.ps1) | One-command rebuild |
 | [app/main.py](app/main.py) | FastAPI REST API (parameterized queries only, except the sandboxed injection demo) |
 | [app/static/](app/static/) | Front-end: plain HTML, CSS and JavaScript, no build step |
+| [tests/](tests/) | 91 pytest tests against the real database: constraints, triggers, queries, concurrency, performance, security, API |
+| [deliverables/](deliverables/) | Project report, presentation (.pptx), understanding guide, testing report, demo runbook (each with a PDF), demo video, diagrams |
+
+## Tests
+
+```powershell
+app\.venv\Scripts\pip install -r tests\requirements.txt
+app\.venv\Scripts\python -m pytest tests -v      # rebuilds the database, runs 91 tests, restores the seed
+```
+
+Each test runs in a rolled-back transaction. The suite covers every business rule, cross-checks the queries (for example relational division against division-by-counting), runs a two-connection concurrency test, and measures indexes with `EXPLAIN ANALYZE`.
 
 ---
 

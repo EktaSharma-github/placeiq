@@ -9,6 +9,14 @@ Thumbs.db
 __pycache__/
 *.pyc
 
+# Node / build artifacts
+node_modules/
+deliverables/.video-tmp/
+deliverables/diagrams/.edge-profile/
+deliverables/src/package-lock.json
+~$*
+*.tmp
+
 # Local database dumps and logs
 *.dump
 *.backup

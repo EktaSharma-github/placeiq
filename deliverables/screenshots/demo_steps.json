@@ -1,0 +1,80 @@
+[
+  {
+    "n": 1,
+    "name": "dashboard",
+    "caption": "PlaceIQ dashboard: every number is computed live by SQL views, aggregates and window functions",
+    "file": "demo_01_dashboard.png"
+  },
+  {
+    "n": 2,
+    "name": "students",
+    "caption": "Students: placement status is never stored, it is derived by the view v_placement_status",
+    "file": "demo_02_students.png"
+  },
+  {
+    "n": 3,
+    "name": "profile_before",
+    "caption": "Dev Saxena (PGP62-084): a pending DataSutra offer, and shortlisted for two December interviews",
+    "file": "demo_03_profile_before.png"
+  },
+  {
+    "n": 4,
+    "name": "second_offer",
+    "caption": "Monsoon Foods makes a pre-placement offer. Trigger T2 marks the application OFFERED",
+    "file": "demo_04_second_offer.png"
+  },
+  {
+    "n": 5,
+    "name": "accept_cascade",
+    "caption": "One transaction: the other offer is auto-DECLINED, the open application WITHDRAWN, interview slots freed",
+    "file": "demo_05_accept_cascade.png"
+  },
+  {
+    "n": 6,
+    "name": "placed_rejected",
+    "caption": "Now placed, so the eligibility trigger refuses any further application in this cycle",
+    "file": "demo_06_placed_rejected.png"
+  },
+  {
+    "n": 7,
+    "name": "cgpa_rejected",
+    "caption": "CGPA 6.23 is below job 25's cut-off of 6.50: rejected by fn_check_application_eligibility()",
+    "file": "demo_07_cgpa_rejected.png"
+  },
+  {
+    "n": 8,
+    "name": "talent_apply",
+    "caption": "Tanvi (DBA12-039) passes every eligibility check, so the application is accepted",
+    "file": "demo_08_talent_apply.png"
+  },
+  {
+    "n": 9,
+    "name": "analytics",
+    "caption": "SQL analytics: the five queries run live from 05_queries.sql, read-only",
+    "file": "demo_09_analytics.png"
+  },
+  {
+    "n": 10,
+    "name": "injection",
+    "caption": "Same input: string concatenation leaks all 180 students; the bound parameter returns 0",
+    "file": "demo_10_injection.png"
+  },
+  {
+    "n": 11,
+    "name": "injection_drop",
+    "caption": "DROP TABLE attempt: blocked by the read-only transaction and the least-privilege role",
+    "file": "demo_11_injection_drop.png"
+  },
+  {
+    "n": 12,
+    "name": "audit_log",
+    "caption": "Audit log: every row was written by the trigger, not by application code",
+    "file": "demo_12_audit_log.png"
+  },
+  {
+    "n": 13,
+    "name": "reset",
+    "caption": "Reset demo data rebuilds the database in about a second, so the demo can be repeated",
+    "file": "demo_13_reset.png"
+  }
+]
