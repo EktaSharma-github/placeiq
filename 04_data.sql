@@ -431,7 +431,7 @@ BEGIN
         v_offer_at := v_day0 + INTERVAL '11 hours';
         v_quick    := (j.cycle_id = 1 OR j.job_id <= 14);
         v_deadline := CASE WHEN v_quick THEN v_offer_at + INTERVAL '3 days'
-                           ELSE TIMESTAMPTZ '2026-12-15 23:59+05:30' END;
+                           ELSE TIMESTAMPTZ '2026-12-31 23:59+05:30' END;
 
         INSERT INTO offer (student_id, job_id, offered_at, response_deadline)
         SELECT t.student_id, j.job_id, v_offer_at, v_deadline

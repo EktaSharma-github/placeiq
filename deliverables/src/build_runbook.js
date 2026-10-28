@@ -117,7 +117,7 @@ app\\.venv\\Scripts\\python app\\main.py
     ["Red dot / 'Database offline'", "PostgreSQL service stopped", "Start the service postgresql-x64-18, then refresh"],
     ["'Address already in use' when starting the app", "App already running in another terminal", "Use the running one at http://127.0.0.1:8000, or close the other terminal"],
     ["Accept says 'Offer … is DECLINED/ACCEPTED'", "The demo was already run", "Click 'Reset demo data'"],
-    ["Accept says 'Offer … expired'", "Presenting after 15 Dec 2026 (seeded deadline)", "Reset still works; or skip to the video"],
+    ["Accept says 'Offer … expired'", "Presenting after 31 Dec 2026 (seeded deadline)", "Reset still works; or skip to the video"],
     ["Make offer button missing on job 21", "PGP62-084 is no longer SHORTLISTED", "Reset demo data"],
     ["Reset fails", "psql not found or wrong password", "Run run_all.ps1 -Password <pw> in a terminal"],
   ], [2.4, 2.4, 2.8], { size: 17 }),
