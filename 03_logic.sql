@@ -498,3 +498,24 @@ BEGIN
     GET DIAGNOSTICS v_count = ROW_COUNT;
     RAISE NOTICE '% offer(s) expired', v_count;
 END $$;
+
+
+-- =====================================================================
+-- LEAST-PRIVILEGE ROLE (DCL)
+--     The web UI's SQL-injection lab runs its deliberately unsafe query
+--     as this role inside a READ ONLY transaction. Even a successful
+--     injection can only read these two tables; it cannot write, drop,
+--     or reach server files the way the postgres superuser could.
+--     Roles are cluster-wide, so create it only if missing.
+-- =====================================================================
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'placeiq_readonly') THEN
+        CREATE ROLE placeiq_readonly NOLOGIN;
+    END IF;
+END $$;
+
+GRANT USAGE  ON SCHEMA placeiq        TO placeiq_readonly;
+GRANT SELECT ON placeiq.student,
+                placeiq.person        TO placeiq_readonly;

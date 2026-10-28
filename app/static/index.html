@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlaceIQ</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="#/dashboard">
+        <span class="brand-mark">P</span>
+        <span class="brand-text"><strong>PlaceIQ</strong><small>Placement database</small></span>
+      </a>
+
+      <nav class="nav">
+        <a href="#/dashboard" data-nav="dashboard">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"/></svg>Dashboard</a>
+        <a href="#/students" data-nav="students">
+          <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg>Students</a>
+        <a href="#/jobs" data-nav="jobs">
+          <svg viewBox="0 0 24 24"><path d="M3 7h18v13H3zM8 7V4h8v3M3 12h18"/></svg>Jobs</a>
+        <a href="#/analytics" data-nav="analytics">
+          <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>SQL analytics</a>
+        <a href="#/security" data-nav="security">
+          <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Injection lab</a>
+        <a href="#/activity" data-nav="activity">
+          <svg viewBox="0 0 24 24"><path d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>Audit log</a>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="db-status" id="db-status"><span class="dot"></span><span>Connecting…</span></div>
+        <a class="foot-link" href="/docs" target="_blank" rel="noopener">REST API docs ↗</a>
+        <button class="btn btn-ghost-dark btn-sm" data-action="reset">Reset demo data</button>
+      </div>
+    </aside>
+
+    <main class="main" id="view" tabindex="-1"></main>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

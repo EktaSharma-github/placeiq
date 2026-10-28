@@ -4,6 +4,11 @@
 Thumbs.db
 .DS_Store
 
+# Python
+.venv/
+__pycache__/
+*.pyc
+
 # Local database dumps and logs
 *.dump
 *.backup

@@ -31,7 +31,30 @@ PlaceIQ normalizes this data into 22 BCNF tables. Each business rule becomes a c
 | **Transactions** | Atomic offer acceptance; row-level locking (`FOR UPDATE`) with a fixed lock order, so concurrent acceptances queue instead of deadlocking |
 | **Analytical SQL** | Relational division, window functions (`DENSE_RANK`, `NTILE`, running `SUM OVER`), correlated subqueries, `LATERAL`, CTEs, views |
 | **Performance** | `EXPLAIN ANALYZE` on 600k rows: **72.8 ms → 0.16 ms** with a composite index, **0.08 ms** with a partial index that is 25× smaller |
-| **Security** | A live SQL-injection demo: string concatenation leaks all 180 records, while bound parameters return 0 |
+| **Security** | A live SQL-injection demo: string concatenation leaks all 180 records, while bound parameters return 0. The vulnerable path is sandboxed by a least-privilege role (`GRANT SELECT` only) and a read-only transaction |
+| **Web UI + REST API** | A FastAPI backend and a browser front-end where every action (apply, make offer, accept) goes through the real triggers, and rejections show which trigger refused them |
+
+## Web UI
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+| Student profile: accept an offer and watch the trigger cascade | Job page: hiring funnel and Query 2 talent match |
+|---|---|
+| ![Student](docs/screenshots/student.png) | ![Job](docs/screenshots/job.png) |
+
+The UI is a thin client. The database enforces every rule, and the REST API forwards PostgreSQL's own error message, its SQLSTATE and the name of the trigger function that rejected the request.
+
+| Page | What it demonstrates |
+|---|---|
+| **Dashboard** | Placement KPIs, a cumulative placement-velocity chart (window functions), and status per program from the `v_placement_status` view |
+| **Students** | Search; full profile with applications, interviews and skills; **Apply** (the eligibility trigger) and **Accept / Decline** (`sp_accept_offer` plus the one-offer cascade) |
+| **Jobs** | Hiring funnel, interview rounds (weak entity), applicants with **Make offer**, and the Query 2 talent match with one-click Apply |
+| **SQL analytics** | The five queries, parsed live from `05_queries.sql`, with SQL, relational algebra and results |
+| **Injection lab** | The same search done unsafely and safely, side by side, showing the exact SQL sent |
+| **Audit log** | Every row written by the triggers |
+| **Reset demo data** | Rebuilds the database in about 2 seconds, so demos are repeatable |
+
+Interactive API documentation (Swagger) is served at `/docs`.
 
 ## Schema at a glance
 
@@ -83,6 +106,17 @@ psql -U postgres -h localhost -d placeiq -f 05_queries.sql   # the 5 queries
 psql -U postgres -h localhost -d placeiq -f 06_demo.sql      # live demo (rolls back)
 ```
 
+Start the web UI (Python 3.10 or later):
+
+```powershell
+cd app
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\python main.py          # open http://127.0.0.1:8000
+```
+
+The app reads the standard `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER` and `PGPASSWORD` variables. It binds to `127.0.0.1` only, because it contains a deliberately vulnerable endpoint used for teaching.
+
 On macOS / Linux:
 
 ```bash
@@ -103,6 +137,8 @@ The mock data uses a fixed seed, so every run produces the same dataset: 16 fict
 | [05_queries.sql](05_queries.sql) | The five showcase queries, annotated with relational algebra |
 | [06_demo.sql](06_demo.sql) | Scripted live demo: constraint violations, trigger cascade, indexing, SQL injection (ends in `ROLLBACK`) |
 | [run_all.ps1](run_all.ps1) | One-command rebuild |
+| [app/main.py](app/main.py) | FastAPI REST API (parameterized queries only, except the sandboxed injection demo) |
+| [app/static/](app/static/) | Front-end: plain HTML, CSS and JavaScript, no build step |
 
 ---
 
