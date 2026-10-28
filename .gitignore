@@ -1,0 +1,10 @@
+# Editor / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Local database dumps and logs
+*.dump
+*.backup
+*.log
