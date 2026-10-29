@@ -37,11 +37,186 @@ const BR = [
   ["BR-15", "A student holding an offer cannot be deleted", "ON DELETE RESTRICT blocks the cascade"],
 ];
 
+// ------------------------------------------------------------ Phase 4 analytics
+// Query text, business question and relational algebra come straight from
+// 07_analytics.sql (same "-- A1. TITLE" block format the notebook parses).
+const fs = require("fs");
+const path = require("path");
+const A = D.analytics, M = A.model;
+const ASQL = (() => {
+  const src = fs.readFileSync(path.join(L.PROJECT, "07_analytics.sql"), "utf8").replace(/\r/g, "");
+  const out = {};
+  for (const m of src.matchAll(/^-- ([AS]\d)\. ([^\n]*)\n([\s\S]*?)^-- =+\n\n([\s\S]*?;)\s*$/gm)) {
+    const header = m[3].split("\n").map((l) => l.replace(/^--\s?/, ""));
+    const section = (name) => {
+      const i = header.findIndex((l) => l.trim() === name);
+      if (i < 0) return "";
+      const rest = header.slice(i + 1);
+      const end = rest.findIndex((l) => /^[A-Z][A-Z ]+$/.test(l.trim()));
+      return rest.slice(0, end < 0 ? undefined : end).map((l) => l.trim()).filter(Boolean).join(" ");
+    };
+    const raLines = (() => {
+      const i = header.findIndex((l) => l.trim().startsWith("RELATIONAL ALGEBRA"));
+      return header.slice(i + 1).map((l) => l.replace(/^ {2}/, "")).filter((l) => l.trim()).join("\n");
+    })();
+    out[m[1]] = { title: m[2].trim(), question: section("BUSINESS QUESTION"), concepts: section("FDS CONCEPTS"), algebra: raLines, sql: m[4] };
+  }
+  out.featureView = src.match(/CREATE VIEW v_student_features AS[\s\S]*?;/)[0];
+  out.segmentDDL = src.match(/CREATE TABLE IF NOT EXISTS segment \([\s\S]*?CREATE INDEX[^;]*;/)[0];
+  return out;
+})();
+const pctR = (n) => Math.round(Number(n));
+const rowsOf = (objs, cols) => objs.map((o) => cols.map((k) => show(o[k])));
+const seg = (name) => A.segment_profile.find((g) => g.segment_name === name);
+const t6 = M.threshold.find((r) => Math.abs(r.t - 0.6) < 1e-9);
+const s2Total = A.s2_actions.reduce((t, r) => t + r.n, 0);
+const FIG = (f) => path.join(L.PROJECT, "analytics", "figures", f);
+
+function analyticsQuery(label, resultRows, fractions, extra = []) {
+  const q = ASQL[label];
+  return [
+    H3(`${label}. ${(q.title.charAt(0) + q.title.slice(1).toLowerCase()).replace(/\bcgpa\b/g, "CGPA")}`),
+    P(`**Business question.** ${q.question}`),
+    P(`**Concepts.** ${q.concepts}`),
+    P("**Relational algebra.**"), code(q.algebra),
+    code(q.sql),
+    tcap(`${label} result`),
+    table(Object.keys(A[label][0]), resultRows || rowsOf(A[label], Object.keys(A[label][0])), fractions || Object.keys(A[label][0]).map(() => 1), { size: 16 }),
+    ...extra,
+  ];
+}
+
+// A function, so its figures and tables are numbered where the chapter sits in the document.
+const analyticsChapter = () => [
+  H1("10. Analytics: statistics in SQL and k-means segmentation"),
+  P("Analytics means taking decisions from data. Chapters 3–9 built a database that stores a placement season correctly; this chapter uses it to answer a question the committee cannot answer from a spreadsheet:"),
+  callout("Analytical question", "Which kinds of students does the current placement process serve badly, and what should the committee do for each kind?", { fill: L.COLOR.tealSoft, color: L.COLOR.teal }),
+  P("The workflow follows the order taught in class. Statistics first, then the model. The database does as much of the work as possible, so only a small feature matrix ever leaves it:"),
+  ...numbered([
+    "**Descriptive statistics and cross-tabs in SQL** (queries A1–A5 in 07_analytics.sql).",
+    "**Feature engineering in SQL:** the view v_student_features turns six normalized tables into one row per student.",
+    "**Statistical tests** (correlation, ANOVA, point-biserial) to see which features carry signal before any model is fitted.",
+    "**k-means clustering** in Python (scikit-learn) on standardized profile features; k chosen by elbow and silhouette.",
+    "**Validation against outcomes** that were never clustering inputs (χ² and Kruskal–Wallis tests).",
+    "**Write-back:** cluster labels are stored in BCNF tables, and SQL queries them again (S1, S2).",
+    "**Classification threshold:** a logistic model of P(offer) shows the false-positive / false-negative trade-off.",
+  ]),
+  callout("Why a DBMS for analytics?", [
+    "An algorithm runs in memory, and loading every raw record for every question does not scale. Most questions need only an aggregate: \"how many students with a CGPA of 8–9 were placed?\" is one GROUP BY.",
+    `In PlaceIQ the DBMS computes all statistics and the whole feature matrix. Python receives ${M.n_students} rows × ${M.features.length} features, not the ${fmt(c.application)} applications and ${fmt(c.interview)} interviews they summarise.`,
+  ]),
+
+  H2("10.1 Descriptive statistics in SQL"),
+  P("Each query below carries its business question, the course concepts it demonstrates and its relational algebra, exactly as written in 07_analytics.sql."),
+  ...analyticsQuery("A1", null, null, [
+    P(`**Reading.** Mean ≈ median (${A.A1.find((r) => r.program === "ALL").mean} vs ${A.A1.find((r) => r.program === "ALL").median}), so CGPA is roughly symmetric. The three programs have almost the same centre and spread; a one-way ANOVA confirms it (F = ${M.anova_cgpa_program.F}, p = ${M.anova_cgpa_program.p}), so program and CGPA carry different information.`),
+  ]),
+  ...analyticsQuery("A2", null, [1, 1.4, 1, 1, 1, 1.2], [
+    ...figure(FIG("01_cgpa_band.png"), "Final placement rate by CGPA band (query A2).", 5.2),
+    P(`**Reading.** No student below a CGPA of 7 has a final placement yet, against ${pctR(A.A2[A.A2.length - 1].placed_pct)}% of those above 9. CGPA is a strong feature, but not a sufficient one: most of the 8–9 band is still unplaced.`),
+  ]),
+  ...analyticsQuery("A3", null, null, [
+    P("**Reading.** About 45% of applications reach an interview in every program, yet only 4–9% become offers: students are lost after the interview, not at CV screening."),
+  ]),
+  ...analyticsQuery("A4", null, [2, 1.2, 1.4, 1.2], [
+    P(`**Reading.** ${A.A4[0].skill_name}, ${A.A4[1].skill_name} and ${A.A4[2].skill_name} have the most jobs per proficient student, so skill workshops there have the highest return.`),
+  ]),
+  ...analyticsQuery("A5", null, null, [
+    P(`**Reading.** For PGP the mean CTC (₹${A.A5.find((r) => r.program === "PGP").mean_ctc} L) is well above the median (₹${A.A5.find((r) => r.program === "PGP").median_ctc} L): a few high offers skew the distribution, so the brochure should quote the median.`),
+  ]),
+
+  H2("10.2 Feature engineering"),
+  P("Feature engineering means modelling the problem as data, which needs domain knowledge. The committee can see five things about a student early in the season:"),
+  tcap("Profile features (clustering inputs)"),
+  table(["Feature", "Why it should matter", "Built from"], [
+    ["cgpa", "Recruiters' first filter (A2)", "student"],
+    ["tech_score", "Analytics roles screen on Python, SQL, ML, Statistics, Big Data, Tableau, R", "Σ proficiency over technical skills (student_skill ⋈ skill)"],
+    ["biz_score", "Consulting and finance roles screen on cases, Excel, communication, financial modelling, product management", "Σ proficiency over business skills"],
+    ["applications", "No application, no offer", "count(application)"],
+    ["interview_rate", "Share of applications that reached an interview: a proxy for CV quality", "application, interview"],
+  ], [1.3, 3.6, 2.8], { size: 17 }),
+  P("**Outcomes are deliberately not inputs.** offers, accepted_offer and best_ctc_lpa are kept in the view for validation only. Clustering on them would make \"students with offers do well\" true by construction; instead we cluster on profile and judge the segments on outcome."),
+  P("The view is a single statement over six tables. Every column is recomputed from the normalized data whenever it is read, so the features can never go stale."),
+  code(ASQL.featureView),
+
+  H2("10.3 Statistics before modelling"),
+  ...figure(FIG("02_correlation.png"), "Pearson correlations between profile features and outcomes.", 4.6),
+  tcap("Statistical tests"),
+  table(["Test", "Hypothesis / measure", "Result", "Conclusion"], [
+    ["Pearson correlation", "tech_score vs biz_score", `r = ${M.corr_tech_biz}`, "Students specialise; the main axis the clusters will find"],
+    ["One-way ANOVA", "H₀: equal mean CGPA in all programs", `F = ${M.anova_cgpa_program.F}, p = ${M.anova_cgpa_program.p}`, "Not rejected: programs do not differ in CGPA"],
+    ...Object.entries(M.pointbiserial_accepted).map(([f, v]) => [
+      "Point-biserial", `accepted_offer vs ${f}`, `r = ${v.r}, p = ${v.p}`, v.p < 0.05 ? "Significant association" : "Not significant on its own"]),
+  ], [1.5, 2.6, 1.7, 2.6], { size: 17 }),
+
+  H2("10.4 k-means clustering"),
+  P("**Scaling.** k-means assigns points to the nearest centroid by Euclidean distance. Unscaled, applications (0–14) would dominate interview_rate (0–1), so every feature is standardized to mean 0 and standard deviation 1 (StandardScaler)."),
+  P("**Algorithm.** k-means++ initialisation, 20 restarts, fixed random seed (reproducible). For each k it minimises the within-cluster sum of squares (inertia)."),
+  P("**Choosing k.** Inertia always falls as k grows, so we look for the elbow and check it against the silhouette score: how much closer each point is to its own cluster than to the next, from −1 to 1."),
+  tcap("k scan"),
+  table(["k", "Inertia", "Mean silhouette"], M.k_scan.map((r) => [r.k, r.inertia, r.silhouette]), [1, 2, 2]),
+  ...figure(FIG("03_choose_k.png"), `Elbow and silhouette: both point to k = ${M.k}.`, 6.0),
+  P(`k = ${M.k} gives the highest silhouette (${M.k_scan.find((r) => r.k === M.k).silhouette}) and sits at the elbow. A silhouette near 0.3 means the segments overlap somewhat, which is normal for data about people. The segments are named from their centroids by rule (most technical; then most applications; then highest interview rate), so the names do not depend on the arbitrary cluster numbering.`),
+  ...figure(FIG("04_segments_pca.png"), `The segments on the first two principal components (${M.pca_var_pct[0]}% and ${M.pca_var_pct[1]}% of variance), one panel per segment.`),
+  ...figure(FIG("05_segment_fingerprints.png"), "Segment fingerprints: each centroid in standard deviations from the campus mean."),
+  tcap("Segment profiles (view v_segment_profile)"),
+  table(["Segment", "n", "CGPA", "Tech", "Biz", "Apps", "Interview rate", "Offers", "Accepted %", "Best CTC"],
+    A.segment_profile.map((g) => [g.segment_name, g.students, g.avg_cgpa, g.avg_tech, g.avg_biz, g.avg_apps, g.avg_interview_rate, g.avg_offers, g.accepted_pct, show(g.avg_best_ctc)]),
+    [2.4, 0.6, 0.8, 0.8, 0.8, 0.8, 1.1, 0.9, 1.1, 1], { size: 16 }),
+
+  H2("10.5 Validating the segments against outcomes"),
+  P(`The segments were built without any outcome data. If they still differ in outcomes, the profile features capture something real. A χ² test of independence between segment and accepted offer gives χ² = ${M.chi2_segment_offer.chi2} (dof ${M.chi2_segment_offer.dof}, p = ${M.chi2_segment_offer.p}); a Kruskal–Wallis test on the number of offers gives H = ${M.kruskal_offers.H} (p = ${M.kruskal_offers.p}). Both reject independence decisively.`),
+  ...figure(FIG("06_segment_outcomes.png"), "Share of each segment with an accepted offer.", 5.2),
+  tcap("Interpretation and recommended action"),
+  table(["Segment", "Who they are", "Recommended action"], [
+    ["High-Achieving Generalists", `High CGPA (${seg("High-Achieving Generalists").avg_cgpa}), business skills, about ${pctR(seg("High-Achieving Generalists").avg_apps)} applications each; ${pctR(seg("High-Achieving Generalists").accepted_pct)}% accepted`, "Nothing urgent; help them choose between offers"],
+    ["Tech Specialists", `Mostly PGDBA, strong technical skills; ${pctR(seg("Tech Specialists").accepted_pct)}% accepted, highest CTC (₹${seg("Tech Specialists").avg_best_ctc} L)`, "Steer towards analytics roles where A4 shows demand"],
+    ["Selective Appliers", `Average CGPA, ${pctR(seg("Selective Appliers").avg_interview_rate * 100)}% reach interview, but only ${seg("Selective Appliers").avg_apps} applications; ${pctR(seg("Selective Appliers").accepted_pct)}% accepted`, "Apply more widely: their CVs work, their reach does not"],
+    ["At-Risk", `Lowest CGPA (${seg("At-Risk").avg_cgpa}), few applications, rarely shortlisted; ${pctR(seg("At-Risk").accepted_pct)}% accepted`, "Priority: CV review, then mock interviews"],
+  ], [1.8, 3.6, 2.4], { size: 17 }),
+  P("The non-obvious finding is the Selective Appliers. Their CGPA is near the average, so no CGPA cut-off would flag them; the clustering found them through behaviour."),
+
+  H2("10.6 Writing the segments back to the database"),
+  P("The labels are stored in the database, not in a CSV on one laptop, so every other query can join on them. Two tables keep the design in BCNF: segment → segment_name would be a dependency on a non-key attribute if the name were stored with each student. The foreign keys guarantee that every label belongs to a real student and a real segment, and the foreign key is indexed like every other in the schema."),
+  code(ASQL.segmentDDL),
+  P("The notebook replaces the whole segmentation in one transaction (DELETE both tables, INSERT the new rows, COMMIT). Either every student gets the new label or nothing changes, so a failed run can never leave a mixture of old and new labels."),
+  ...analyticsQuery("S1", null, [1.2, 2.2, 1, 1.3], [
+    P("**Reading.** PGDBA is almost a single segment, but PGP and PGPEX each spread across three. A program-wide policy (\"one workshop for all PGP students\") would miss most of their at-risk students."),
+  ]),
+  ...(() => {
+    const q = ASQL.S2;
+    return [
+      H3("S2. Who needs help now?"),
+      P(`**Business question.** ${q.question}`), P(`**Concepts.** ${q.concepts}`),
+      P("**Relational algebra.**"), code(q.algebra), code(q.sql),
+      tcap(`S2 result, summarised (${s2Total} students)`),
+      table(["Segment", "Suggested action", "Students"], A.s2_actions.map((r) => [r.segment_name, r.suggested_action, r.n]), [2, 3, 1]),
+      P(`**Reading.** The query turns the analysis into a weekly to-do list for the committee. More than half of the ${s2Total} students simply need to apply to more roles, which costs the committee only a reminder.`),
+    ];
+  })(),
+
+  H2("10.7 Choosing a classification threshold"),
+  P("A classifier outputs a probability. Someone must choose the threshold t that turns it into a decision. Here a logistic regression estimates P(offer | profile) with 5-fold cross-validation, so every student is scored by a model that never saw them. A student is flagged for support if P(offer) < t."),
+  tcap("Threshold sweep (positive class: student with no offer)"),
+  table(["t", "Flagged", "TP", "FP", "FN", "TN", "Precision", "Recall"],
+    M.threshold.map((r) => [r.t, r.flagged, r.TP, r.FP, r.FN, r.TN, r.precision, r.recall]), [1, 1, 1, 1, 1, 1, 1.2, 1.2], { size: 17 }),
+  ...figure(FIG("07_threshold.png"), "Precision and recall as the threshold changes.", 5.2),
+  P(`A low t misses students who end up with no offer (false negatives). A high t spends workshop seats on students who would have been fine (false positives). A missed student costs more, so a threshold around 0.6 is defensible: it catches ${pctR(t6.recall * 100)}% of the students with no offer at ${pctR(t6.precision * 100)}% precision. The standardized coefficients agree with the clusters: CGPA (${M.logit_coef.cgpa}) and applications (${M.logit_coef.applications}) dominate.`),
+
+  H2("10.8 Limitations of the analysis"),
+  ...bullets([
+    "The data is simulated by 04_data.sql, so effect sizes reflect how the simulation was written. The method, not the numbers, is what transfers to a real season.",
+    "The final cycle is in progress; outcomes are a snapshot and will change.",
+    `A silhouette of ${M.k_scan.find((r) => r.k === M.k).silhouette} means the segment boundaries are soft: borderline students deserve individual attention.`,
+    "Segments are recomputed by running the notebook; a database rebuild empties the segment tables until it is run again.",
+  ]),
+];
+
 const children = [
   ...cover({ kind: "Project report", title: "PlaceIQ", subtitle: "Campus Placement & Recruitment Management System: a PostgreSQL database that enforces its own rules" }),
 
   L.H1n("Abstract"),
-  P(`Campus placement committees typically run recruitment from shared spreadsheets: one row per student, per company, per interview round. Such files duplicate data, suffer update, insertion and deletion anomalies, and cannot enforce policy. PlaceIQ replaces the spreadsheet with a relational database in PostgreSQL 18 whose design follows the full arc of the Fundamentals of Database Systems course. We built an Enhanced ER model using overlapping and disjoint specialization, a weak entity, aggregation and a category (union type); mapped it to ${cat.tables} relations; and proved every relation to be in Boyce–Codd Normal Form. Fifteen business rules are enforced inside the database by ${cat.constraints.c} CHECK constraints, ${cat.constraints.f} foreign keys (several composite), an exclusion constraint, ${cat.triggers} triggers and stored procedures. Seeded mock data for ${c.student} students, ${c.company} companies, ${fmt(c.application)} applications and ${fmt(c.interview)} interviews is loaded through those same rules. Five analytical queries demonstrate joins, HAVING, relational division, correlated subqueries and window functions. A composite index made a representative query ${fmt(speedup)} times faster on 600,000 rows. A FastAPI web interface, an SQL-injection laboratory sandboxed by a least-privilege role, and an automated suite of ${T.total} tests (all passing) complete the project.`),
+  P(`Campus placement committees typically run recruitment from shared spreadsheets: one row per student, per company, per interview round. Such files duplicate data, suffer update, insertion and deletion anomalies, and cannot enforce policy. PlaceIQ replaces the spreadsheet with a relational database in PostgreSQL 18 whose design follows the full arc of the Fundamentals of Database Systems course. We built an Enhanced ER model using overlapping and disjoint specialization, a weak entity, aggregation and a category (union type); mapped it to ${cat.tables} relations; and proved every relation to be in Boyce–Codd Normal Form. Fifteen business rules are enforced inside the database by ${cat.constraints.c} CHECK constraints, ${cat.constraints.f} foreign keys (several composite), an exclusion constraint, ${cat.triggers} triggers and stored procedures. Seeded mock data for ${c.student} students, ${c.company} companies, ${fmt(c.application)} applications and ${fmt(c.interview)} interviews is loaded through those same rules. Five analytical queries demonstrate joins, HAVING, relational division, correlated subqueries and window functions. An analytics layer then asks which students the process serves badly: descriptive statistics and a feature matrix are computed in SQL, and k-means clustering finds ${A.segment_profile.length} student segments that differ sharply in placement outcome (χ² p = ${M.chi2_segment_offer.p}) although outcomes were never clustering inputs. The segments are written back to BCNF tables, and a SQL query turns them into an action list of ${s2Total} students. A composite index made a representative query ${fmt(speedup)} times faster on 600,000 rows. A FastAPI web interface, an SQL-injection laboratory sandboxed by a least-privilege role, and an automated suite of ${T.total} tests (all passing) complete the project.`),
 
   ...toc(),
 
@@ -55,6 +230,7 @@ const children = [
     "Map the model to a relational schema and normalize it to BCNF, with explicit functional dependencies and proofs of lossless, dependency-preserving decomposition.",
     "Enforce the committee's policy inside the database: declaratively where possible, procedurally (triggers) where a rule spans several tables.",
     "Generate realistic, reproducible data and answer real business questions with advanced SQL.",
+    "Analyse the data: descriptive statistics and feature engineering in SQL, then k-means segmentation validated with statistical tests, with the results stored back in the database.",
     "Demonstrate transactions, concurrency control, indexing and SQL-injection defence with measurements, not assertions.",
     "Verify everything with an automated test suite and present it through a working web interface.",
   ]),
@@ -69,7 +245,8 @@ const children = [
   tcap("Technology stack"),
   table(["Layer", "Technology", "Purpose"], [
     ["Database", "PostgreSQL 18.6 (pgAdmin, psql)", "Schema, constraints, triggers, procedures, views, roles"],
-    ["Scripts", "SQL files 02–06, PowerShell run_all.ps1", "Repeatable build: DDL → logic → data → queries → demo"],
+    ["Scripts", "SQL files 02–07, PowerShell run_all.ps1", "Repeatable build: DDL → logic → data → queries → demo → analytics"],
+    ["Analytics", "Jupyter, pandas, scikit-learn, SciPy, matplotlib", "Statistical tests, k-means, logistic regression, figures"],
     ["Application", "Python 3.12, FastAPI, psycopg 3", "REST API using parameterized SQL only"],
     ["Front end", "HTML, CSS, vanilla JavaScript", "Single-page UI: dashboard, students, jobs, analytics, labs"],
     ["Testing", "pytest 8, FastAPI TestClient", `${T.total} automated tests against the real database`],
@@ -282,6 +459,7 @@ CONSTRAINT excl_student_double_booking
     ["CHECK constraints", cat.constraints.c], ["EXCLUDE constraints", cat.constraints.x], ["Indexes (including key indexes)", cat.indexes],
     ["Triggers", cat.triggers], ["Views", 2], ["Stored routines", 3],
   ], [4, 1]),
+  P(`The counts describe the designed schema. The analytics layer (chapter 10) adds ${cat.analytics_tables} tables (segment, student_segment), two foreign keys with their index, and two views (v_student_features, v_segment_profile).`),
   P("PostgreSQL indexes primary keys and UNIQUE constraints automatically but not foreign-key columns. The DDL therefore creates an index for every foreign key not already covered by the leading columns of another index; test TC-SCH-04 verifies this for all 30 foreign keys."),
 
   // ------------------------------------------------------------------ 7
@@ -348,8 +526,10 @@ SELECT NEW.student_id, w.job_id, 'AUTO_WITHDRAWN', ..., v_when FROM withdrawn w;
   }),
   P("Q2 was additionally cross-checked against the division-by-counting formulation (GROUP BY … HAVING count(*) = number of required skills) for all 25 jobs; both give identical sets (test TC-QRY-06)."),
 
-  // ------------------------------------------------------------------ 10
-  H1("10. Transactions and concurrency"),
+  ...analyticsChapter(),
+
+  // ------------------------------------------------------------------ 11
+  H1("11. Transactions and concurrency"),
   tcap("ACID properties in PlaceIQ"),
   table(["Property", "How the project demonstrates it", "Test"], [
     ["Atomicity", "Accepting an offer and its whole cascade is one transaction; a ROLLBACK restores offers, applications, interviews and the log", "TC-TXN-01"],
@@ -357,13 +537,13 @@ SELECT NEW.student_id, w.job_id, 'AUTO_WITHDRAWN', ..., v_when FROM withdrawn w;
     ["Isolation", "Concurrent acceptances for one student are serialized by a row lock on the student", "TC-TXN-02, 03"],
     ["Durability", "After COMMIT returns, PostgreSQL's write-ahead log preserves the change across a crash", "(engine guarantee)"],
   ], [1.3, 4.8, 1.6], { size: 17 }),
-  H2("10.1 The concurrency scenario"),
+  H2("11.1 The concurrency scenario"),
   P("Under the default READ COMMITTED isolation level, two sessions accepting two different offers for the same student could both pass the 'no other accepted offer' check before either commits, leaving the student with two accepted offers. sp_accept_offer therefore takes SELECT … FOR UPDATE on the student's row before touching any offer. Session B blocks until session A commits; it then re-reads its offer, finds that A's cascade has already declined it, and aborts. The automated test runs this with two real connections and a thread, and asserts that exactly one accepted offer remains."),
-  H2("10.2 Lock order and deadlock"),
+  H2("11.2 Lock order and deadlock"),
   P("An earlier version locked the offer row first. Two concurrent acceptances could then each hold one offer while their cascades needed the other's, a classic deadlock (PostgreSQL would detect it and abort one session). Locking the common parent row, the student, first imposes a single global lock order, which eliminates the cycle."),
 
-  // ------------------------------------------------------------------ 11
-  H1("11. Performance and indexing"),
+  // ------------------------------------------------------------------ 12
+  H1("12. Performance and indexing"),
   P("The live tables are small enough that sequential scans are optimal, so indexing was measured on a 600,000-row application archive built inside a transaction. Each figure is the best of three EXPLAIN ANALYZE runs recorded by the performance tests."),
   tcap("Index measurements (query: open applications for one job)"),
   table(["Configuration", "Plan", "Execution time", "Index size"], [
@@ -377,23 +557,23 @@ SELECT NEW.student_id, w.job_id, 'AUTO_WITHDRAWN', ..., v_when FROM withdrawn w;
     "The accurate statement of the rule is that an index cannot be used to seek on a non-leading column; at best the whole index (or the whole table) is read. Our test and demo script were corrected accordingly.",
   ]),
 
-  // ------------------------------------------------------------------ 12
-  H1("12. Security"),
-  H2("12.1 SQL injection"),
+  // ------------------------------------------------------------------ 13
+  H1("13. Security"),
+  H2("13.1 SQL injection"),
   P("Every query in the application passes user input as a bound parameter (psycopg %s placeholders, sent separately from the SQL text as $1, $2 …), so input can never change the structure of a statement. To demonstrate the difference, the web interface includes a laboratory that runs the same student search two ways."),
   table(["Input", "String concatenation", "Bound parameter"], [
     ["Sen", "6 rows", "6 rows"], ["x' OR '1'='1", "180 rows: every student leaked", "0 rows"],
     ["x' UNION SELECT roll_no, cgpa::text, phone …", "180 rows of CGPAs and phone numbers", "0 rows"],
     ["x'; DROP TABLE student; --", "Refused: SQLSTATE 25006 (read-only transaction)", "0 rows"],
   ], [2.8, 2.7, 1.6], { size: 17 }),
-  H2("12.2 Least privilege (DCL)"),
+  H2("13.2 Least privilege (DCL)"),
   code(`CREATE ROLE placeiq_readonly NOLOGIN;
 GRANT USAGE  ON SCHEMA placeiq TO placeiq_readonly;
 GRANT SELECT ON placeiq.student, placeiq.person TO placeiq_readonly;`),
   P("The deliberately vulnerable path runs as this role, inside a READ ONLY transaction with a two-second statement timeout, and is always rolled back. Even a successful injection can therefore only read two tables: writes fail, other tables are denied (SQLSTATE 42501) and superuser functions such as pg_read_file are unavailable. The web server binds to 127.0.0.1 only."),
 
-  // ------------------------------------------------------------------ 13
-  H1("13. Application layer"),
+  // ------------------------------------------------------------------ 14
+  H1("14. Application layer"),
   ...figure("diagrams/architecture.png", "Three-tier architecture: browser single-page app, FastAPI REST API, PostgreSQL."),
   P("The REST API (app/main.py) is a thin layer: it calls the views, the stored function and the procedures, and translates database errors into JSON containing PostgreSQL's message, the SQLSTATE and the name of the trigger function that raised it. The browser shows that explanation directly, so users see why the database refused an action."),
   tcap("Main REST endpoints"),
@@ -410,29 +590,31 @@ GRANT SELECT ON placeiq.student, placeiq.person TO placeiq_readonly;`),
   ...figure(L.PROJECT + "/docs/screenshots/dashboard.png", "Dashboard: KPIs, placement velocity (window function) and status by program (view).", 6.0),
   ...figure(L.ROOT + "/screenshots/demo_05_accept_cascade.png", "Student profile after accepting an offer: the cascade declined one offer and withdrew one application.", 6.0),
 
-  // ------------------------------------------------------------------ 14
-  H1("14. Testing summary"),
+  // ------------------------------------------------------------------ 15
+  H1("15. Testing summary"),
   P(`The automated suite (tests/) contains ${T.total} test cases that run against the real database with pytest; all ${T.passed} pass. Each test runs in a transaction that is rolled back, the database is rebuilt at the start and end of a run, and tests that must commit (concurrency, API writes) restore the seed afterwards. Full details, the traceability matrix and the defect log are in the separate Testing Report.`),
   (() => { const m = {}; D.tests.tests.forEach((t) => { m[t.module] = (m[t.module] || 0) + 1; });
     return table(["Module", "Tests", "Result"], Object.entries(m).map(([k, v]) => [k, v, "All passed"]), [3, 1, 2]); })(),
 
-  // ------------------------------------------------------------------ 15
-  H1("15. Learnings, limitations and future work"),
-  H2("15.1 What we learned"),
+  // ------------------------------------------------------------------ 16
+  H1("16. Learnings, limitations and future work"),
+  H2("16.1 What we learned"),
   ...bullets([
     "**Modelling decides what can be enforced.** Treating the application as an aggregation is what made it possible to guarantee, with plain foreign keys, that interviews and offers belong to a real application.",
     "**Normalization is a proof, not a feeling.** Writing every functional dependency exposed the transitive dependency hidden in min_cgpa and justified the Eligibility table.",
     "**Declare before you code.** CHECK constraints, composite foreign keys and an exclusion constraint reject bad data even when the application is bypassed; triggers are for what cannot be declared.",
     "**Concurrency must be tested, not assumed.** A two-connection test showed why lock order matters and turned a possible deadlock into a clean queue.",
     "**Measure performance.** The leading-column rule behaved differently on PostgreSQL 18 than the textbook summary suggested; measuring blocks read gave the accurate explanation.",
+    "**Let the DBMS do the first pass of analytics.** Statistics, cross-tabs and the feature matrix are SQL; only a small matrix reached Python.",
+    "**Cluster on profile, judge on outcome.** Keeping outcomes out of the clustering made the χ² validation meaningful, and surfaced the Selective Appliers, whom a CGPA cut-off would never flag.",
   ]),
-  H2("15.2 Limitations"),
+  H2("16.2 Limitations"),
   ...bullets([
-    "Synthetic data: distributions are plausible but not drawn from a real placement season.",
+    "Synthetic data: distributions are plausible but not drawn from a real placement season, so the analytics findings illustrate the method rather than a real campus.",
     "No user authentication or row-level security per student or recruiter.",
     "The UI is a teaching interface, tested end to end through the recorded demo rather than a browser test suite.",
   ]),
-  H2("15.3 Future work"),
+  H2("16.3 Future work"),
   ...bullets([
     "Row-level security policies so that each student sees only their own rows.",
     "SERIALIZABLE isolation as an alternative to explicit locking, with retry logic.",
@@ -440,13 +622,13 @@ GRANT SELECT ON placeiq.student, placeiq.person TO placeiq_readonly;`),
     "Materialized views for the dashboard with scheduled refresh.",
   ]),
 
-  // ------------------------------------------------------------------ 16
-  H1("16. Team contribution"),
+  // ------------------------------------------------------------------ 17
+  H1("17. Team contribution"),
   table(["Member", "Name", "Owned in the project and the presentation"], [
     ["M1", TEAM[0], "Problem analysis, business rules, EER model (both views), Chen diagrams"],
-    ["M2", TEAM[1], "ER-to-relational mapping, keys, functional dependencies, normalization to BCNF and proofs"],
-    ["M3", TEAM[2], "DDL and integrity techniques, data generation, the five analytical queries"],
-    ["M4", TEAM[3], "Triggers and procedures, transactions and concurrency, indexing, security, testing, live demo"],
+    ["M2", TEAM[1], "ER-to-relational mapping, keys, functional dependencies, normalization to BCNF and proofs, DDL and integrity techniques"],
+    ["M3", TEAM[2], "Data generation, the five analytical queries, triggers and procedures, transactions and concurrency, live demo"],
+    ["M4", TEAM[3], "Analytics (SQL statistics, feature engineering, k-means, validation, write-back), indexing, security, testing"],
   ], [0.8, 1.7, 5.2]),
   P("All members reviewed each other's sections; the presentation follows the same split."),
 
@@ -474,11 +656,16 @@ python -m venv .venv
 .venv\\Scripts\\python main.py                               # http://127.0.0.1:8000
 
 # 4. Tests (pip install pytest httpx into the same venv)
-app\\.venv\\Scripts\\python -m pytest tests -v`),
+app\\.venv\\Scripts\\python -m pytest tests -v
+
+# 5. Analytics (after any rebuild; fills the segment tables)
+cd analytics
+jupyter nbconvert --to notebook --execute --inplace placeiq_kmeans.ipynb`),
   H1n("Appendix B. Repository contents"),
   table(["Path", "Contents"], [
     ["01_design.md", "Design notes: rules, EER, mapping, normalization"], ["02_ddl.sql", "Schema"], ["03_logic.sql", "Views, triggers, procedures, role"],
     ["04_data.sql", "Seeded data and recruitment simulation"], ["05_queries.sql", "The five queries"], ["06_demo.sql", "Scripted psql demo"],
+    ["07_analytics.sql", "SQL statistics, feature view, segment tables and queries"], ["analytics/", "k-means notebook (also as HTML) and figures"],
     ["app/", "FastAPI backend and web UI"], ["tests/", "pytest suite and results"], ["deliverables/", "Report, guide, testing report, runbook, slides, video, diagrams"],
   ], [2, 5]),
 ];

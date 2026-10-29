@@ -48,7 +48,7 @@ def connect(autocommit: bool = False) -> psycopg.Connection:
 def rebuild_database() -> float:
     env = {**os.environ, "PGPASSWORD": DB_SETTINGS["password"]}
     started = time.perf_counter()
-    for script in ("02_ddl.sql", "03_logic.sql", "04_data.sql"):
+    for script in ("02_ddl.sql", "03_logic.sql", "04_data.sql", "07_analytics.sql"):
         result = subprocess.run(
             [PSQL, "-h", DB_SETTINGS["host"], "-p", str(DB_SETTINGS["port"]), "-U", DB_SETTINGS["user"],
              "-d", DB_SETTINGS["dbname"], "-q", "-v", "ON_ERROR_STOP=1", "-f", str(PROJECT_DIR / script)],

@@ -30,6 +30,7 @@ PlaceIQ normalizes this data into 22 BCNF tables. Each business rule becomes a c
 | **Triggers** | Eligibility on apply (CGPA, program, backlogs, deadline, opt-out); a **one-offer policy** that atomically declines other offers, withdraws open applications and frees interview slots; deferred constraint triggers for total specialization |
 | **Transactions** | Atomic offer acceptance; row-level locking (`FOR UPDATE`) with a fixed lock order, so concurrent acceptances queue instead of deadlocking |
 | **Analytical SQL** | Relational division, window functions (`DENSE_RANK`, `NTILE`, running `SUM OVER`), correlated subqueries, `LATERAL`, CTEs, views |
+| **Analytics** | Statistics and a feature matrix computed in SQL ([`07_analytics.sql`](07_analytics.sql)); k-means finds four student segments that differ sharply in placement outcome (χ² p ≈ 1e-5); labels written back to BCNF tables and turned into an action list by SQL. See [`analytics/`](analytics/) |
 | **Performance** | `EXPLAIN ANALYZE` on 600k rows: **72.8 ms → 0.16 ms** with a composite index, **0.08 ms** with a partial index that is 25× smaller |
 | **Security** | A live SQL-injection demo: string concatenation leaks all 180 records, while bound parameters return 0. The vulnerable path is sandboxed by a least-privilege role (`GRANT SELECT` only) and a read-only transaction |
 | **Web UI + REST API** | A FastAPI backend and a browser front-end where every action (apply, make offer, accept) goes through the real triggers, and rejections show which trigger refused them |

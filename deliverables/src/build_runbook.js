@@ -49,9 +49,9 @@ const children = [
 
   H1("1. Purpose and timing"),
   table(["Item", "Detail"], [
-    ["Presenter", `M4 · ${TEAM[3]} (driving); M3 can operate the laptop`],
-    ["When", "Slide 14, at about 12:00 into the talk"],
-    ["Length", "75 seconds for the core demo (steps 4–6); the rest is optional for Q&A"],
+    ["Presenter", `M3 · ${TEAM[2]} (driving); M4 can operate the laptop`],
+    ["When", "Slide 14, at about 9:35 into the talk"],
+    ["Length", "55 seconds for the core demo (steps 4–6); the rest is optional for Q&A"],
     ["Goal", "Show the database enforcing the one-offer policy atomically, and refusing invalid actions with its own messages"],
     ["Backup", "PlaceIQ_Demo_Video.webm (same steps, captioned) and the psql script 06_demo.sql"],
   ], [1.6, 6]),

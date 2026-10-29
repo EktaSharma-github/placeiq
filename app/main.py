@@ -656,7 +656,7 @@ def reset_database():
         raise HTTPException(500, f"psql not found at {PSQL_PATH}; set PLACEIQ_PSQL")
     env = {**os.environ, "PGPASSWORD": DB_SETTINGS["password"]}
     started = time.perf_counter()
-    for script in ("02_ddl.sql", "03_logic.sql", "04_data.sql"):
+    for script in ("02_ddl.sql", "03_logic.sql", "04_data.sql", "07_analytics.sql"):
         result = subprocess.run(
             [PSQL_PATH, "-h", DB_SETTINGS["host"], "-p", str(DB_SETTINGS["port"]),
              "-U", DB_SETTINGS["user"], "-d", DB_SETTINGS["dbname"],

@@ -4,10 +4,11 @@ from conftest import scalar
 
 
 def test_table_count(db):
-    """TC-SCH-01 | Design | The schema contains exactly the 22 designed tables"""
-    n = scalar(db, """SELECT count(*) FROM information_schema.tables
-                      WHERE table_schema = 'placeiq' AND table_type = 'BASE TABLE'""")
-    assert n == 22
+    """TC-SCH-01 | Design | The schema contains exactly the 22 designed tables, plus the 2 analytics tables"""
+    names = {r["table_name"] for r in db.execute("""SELECT table_name FROM information_schema.tables
+                      WHERE table_schema = 'placeiq' AND table_type = 'BASE TABLE'""")}
+    assert names >= {"segment", "student_segment"}
+    assert len(names - {"segment", "student_segment"}) == 22
 
 
 def test_every_table_has_primary_key(db):
@@ -21,12 +22,15 @@ def test_every_table_has_primary_key(db):
 
 
 def test_foreign_keys_present(db):
-    """TC-SCH-03 | Referential integrity | All 30 designed foreign keys exist
+    """TC-SCH-03 | Referential integrity | All 30 designed foreign keys exist, plus 2 on the analytics tables
     Includes the composite FKs used for disjointness, the sponsor category,
     the recruiter-company consistency rule and the interview aggregation."""
     n = scalar(db, "SELECT count(*) FROM pg_constraint WHERE contype = 'f' "
-                   "AND connamespace = 'placeiq'::regnamespace")
+                   "AND connamespace = 'placeiq'::regnamespace "
+                   "AND conrelid <> 'placeiq.student_segment'::regclass")
     assert n == 30
+    assert scalar(db, "SELECT count(*) FROM pg_constraint WHERE contype = 'f' "
+                      "AND conrelid = 'placeiq.student_segment'::regclass") == 2
 
 
 def test_foreign_keys_are_indexed(db):
@@ -77,10 +81,10 @@ def test_identity_sequences_ahead_of_data(db):
 
 
 def test_views_exist(db):
-    """TC-SCH-08 | Views | Both views (v_job_details, v_placement_status) exist"""
+    """TC-SCH-08 | Views | The two operational views and the two analytics views exist"""
     names = {r["table_name"] for r in db.execute(
         "SELECT table_name FROM information_schema.views WHERE table_schema = 'placeiq'")}
-    assert names == {"v_job_details", "v_placement_status"}
+    assert names == {"v_job_details", "v_placement_status", "v_student_features", "v_segment_profile"}
 
 
 def test_triggers_installed(db):

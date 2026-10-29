@@ -1,9 +1,9 @@
 {
-  "seq_scan_ms": 62.654,
-  "composite_index_ms": 0.029,
+  "seq_scan_ms": 60.839,
+  "composite_index_ms": 0.025,
   "full_index_kb": 4488,
   "partial_index_kb": 176,
-  "partial_index_ms": 0.021,
+  "partial_index_ms": 0.018,
   "seek_blocks": 3,
   "status_only_blocks": 4383
 }

@@ -25,6 +25,7 @@
   },
   "catalog": {
     "tables": 22,
+    "analytics_tables": 2,
     "constraints": {
       "t": 3,
       "c": 45,
@@ -850,13 +851,1144 @@
       "privilege_type": "SELECT"
     }
   ],
+  "analytics": {
+    "A1": [
+      {
+        "program": "PGDBA",
+        "n": 60,
+        "mean": 7.82,
+        "median": 7.84,
+        "mode_half_pt": 7.5,
+        "sd": 0.69,
+        "min": 6.48,
+        "q1": 7.31,
+        "q3": 8.36,
+        "max": 9.18
+      },
+      {
+        "program": "PGP",
+        "n": 90,
+        "mean": 7.9,
+        "median": 7.87,
+        "mode_half_pt": 8.0,
+        "sd": 0.82,
+        "min": 6.23,
+        "q1": 7.36,
+        "q3": 8.39,
+        "max": 9.69
+      },
+      {
+        "program": "PGPEX",
+        "n": 30,
+        "mean": 7.9,
+        "median": 7.86,
+        "mode_half_pt": 7.5,
+        "sd": 0.86,
+        "min": 6.26,
+        "q1": 7.34,
+        "q3": 8.41,
+        "max": 9.49
+      },
+      {
+        "program": "ALL",
+        "n": 180,
+        "mean": 7.88,
+        "median": 7.87,
+        "mode_half_pt": 8.0,
+        "sd": 0.78,
+        "min": 6.23,
+        "q1": 7.33,
+        "q3": 8.4,
+        "max": 9.69
+      }
+    ],
+    "A2": [
+      {
+        "band_no": 1,
+        "cgpa_band": "6.0 - 7.0",
+        "students": 26,
+        "placed": 0,
+        "placed_pct": 0.0,
+        "avg_ctc_lpa": null
+      },
+      {
+        "band_no": 2,
+        "cgpa_band": "7.0 - 8.0",
+        "students": 79,
+        "placed": 5,
+        "placed_pct": 6.3,
+        "avg_ctc_lpa": 29.2
+      },
+      {
+        "band_no": 3,
+        "cgpa_band": "8.0 - 9.0",
+        "students": 54,
+        "placed": 15,
+        "placed_pct": 27.8,
+        "avg_ctc_lpa": 28.0
+      },
+      {
+        "band_no": 4,
+        "cgpa_band": "9.0 - 10.0",
+        "students": 18,
+        "placed": 10,
+        "placed_pct": 55.6,
+        "avg_ctc_lpa": 28.85
+      }
+    ],
+    "A3": [
+      {
+        "program_code": "PGP",
+        "applications": 663,
+        "interviewed": 302,
+        "offers": 61,
+        "accepted": 38,
+        "app_to_offer_pct": 9.2
+      },
+      {
+        "program_code": "PGDBA",
+        "applications": 452,
+        "interviewed": 204,
+        "offers": 32,
+        "accepted": 21,
+        "app_to_offer_pct": 7.1
+      },
+      {
+        "program_code": "PGPEX",
+        "applications": 69,
+        "interviewed": 34,
+        "offers": 3,
+        "accepted": 2,
+        "app_to_offer_pct": 4.3
+      }
+    ],
+    "A4": [
+      {
+        "skill_name": "SQL",
+        "jobs_requiring": 11,
+        "students_proficient": 63,
+        "jobs_per_student": 0.175
+      },
+      {
+        "skill_name": "Excel",
+        "jobs_requiring": 13,
+        "students_proficient": 88,
+        "jobs_per_student": 0.148
+      },
+      {
+        "skill_name": "Statistics",
+        "jobs_requiring": 7,
+        "students_proficient": 50,
+        "jobs_per_student": 0.14
+      },
+      {
+        "skill_name": "Communication",
+        "jobs_requiring": 8,
+        "students_proficient": 79,
+        "jobs_per_student": 0.101
+      },
+      {
+        "skill_name": "Case Solving",
+        "jobs_requiring": 6,
+        "students_proficient": 72,
+        "jobs_per_student": 0.083
+      },
+      {
+        "skill_name": "Python",
+        "jobs_requiring": 4,
+        "students_proficient": 51,
+        "jobs_per_student": 0.078
+      },
+      {
+        "skill_name": "Tableau",
+        "jobs_requiring": 2,
+        "students_proficient": 32,
+        "jobs_per_student": 0.063
+      },
+      {
+        "skill_name": "Machine Learning",
+        "jobs_requiring": 2,
+        "students_proficient": 52,
+        "jobs_per_student": 0.038
+      },
+      {
+        "skill_name": "Product Management",
+        "jobs_requiring": 2,
+        "students_proficient": 75,
+        "jobs_per_student": 0.027
+      },
+      {
+        "skill_name": "Financial Modelling",
+        "jobs_requiring": 2,
+        "students_proficient": 79,
+        "jobs_per_student": 0.025
+      },
+      {
+        "skill_name": "Big Data",
+        "jobs_requiring": 1,
+        "students_proficient": 44,
+        "jobs_per_student": 0.023
+      },
+      {
+        "skill_name": "R",
+        "jobs_requiring": 1,
+        "students_proficient": 59,
+        "jobs_per_student": 0.017
+      }
+    ],
+    "A5": [
+      {
+        "program": "PGDBA",
+        "accepted_offers": 12,
+        "mean_ctc": 29.71,
+        "median_ctc": 30.25,
+        "sd_ctc": 5.69,
+        "min_ctc": 22.0,
+        "max_ctc": 38.0
+      },
+      {
+        "program": "PGP",
+        "accepted_offers": 16,
+        "mean_ctc": 27.78,
+        "median_ctc": 24.5,
+        "sd_ctc": 6.44,
+        "min_ctc": 19.5,
+        "max_ctc": 38.0
+      },
+      {
+        "program": "PGPEX",
+        "accepted_offers": 2,
+        "mean_ctc": 26.75,
+        "median_ctc": 26.75,
+        "sd_ctc": 6.72,
+        "min_ctc": 22.0,
+        "max_ctc": 31.5
+      },
+      {
+        "program": "ALL",
+        "accepted_offers": 30,
+        "mean_ctc": 28.48,
+        "median_ctc": 29.0,
+        "sd_ctc": 6.04,
+        "min_ctc": 19.5,
+        "max_ctc": 38.0
+      }
+    ],
+    "S1": [
+      {
+        "program_code": "PGDBA",
+        "segment_name": "Tech Specialists",
+        "students": 54,
+        "pct_of_program": 91.5
+      },
+      {
+        "program_code": "PGDBA",
+        "segment_name": "At-Risk",
+        "students": 3,
+        "pct_of_program": 5.1
+      },
+      {
+        "program_code": "PGDBA",
+        "segment_name": "High-Achieving Generalists",
+        "students": 1,
+        "pct_of_program": 1.7
+      },
+      {
+        "program_code": "PGDBA",
+        "segment_name": "Selective Appliers",
+        "students": 1,
+        "pct_of_program": 1.7
+      },
+      {
+        "program_code": "PGP",
+        "segment_name": "High-Achieving Generalists",
+        "students": 62,
+        "pct_of_program": 69.7
+      },
+      {
+        "program_code": "PGP",
+        "segment_name": "At-Risk",
+        "students": 16,
+        "pct_of_program": 18.0
+      },
+      {
+        "program_code": "PGP",
+        "segment_name": "Selective Appliers",
+        "students": 9,
+        "pct_of_program": 10.1
+      },
+      {
+        "program_code": "PGP",
+        "segment_name": "Tech Specialists",
+        "students": 2,
+        "pct_of_program": 2.2
+      },
+      {
+        "program_code": "PGPEX",
+        "segment_name": "At-Risk",
+        "students": 15,
+        "pct_of_program": 51.7
+      },
+      {
+        "program_code": "PGPEX",
+        "segment_name": "Selective Appliers",
+        "students": 9,
+        "pct_of_program": 31.0
+      },
+      {
+        "program_code": "PGPEX",
+        "segment_name": "High-Achieving Generalists",
+        "students": 5,
+        "pct_of_program": 17.2
+      }
+    ],
+    "S2": [
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-022",
+        "program_code": "PGP",
+        "cgpa": 6.23,
+        "tech_score": 2,
+        "biz_score": 18,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-002",
+        "program_code": "PGPEX",
+        "cgpa": 6.26,
+        "tech_score": 7,
+        "biz_score": 12,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-069",
+        "program_code": "PGP",
+        "cgpa": 6.34,
+        "tech_score": 13,
+        "biz_score": 16,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-045",
+        "program_code": "PGP",
+        "cgpa": 6.4,
+        "tech_score": 14,
+        "biz_score": 13,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "DBA12-060",
+        "program_code": "PGDBA",
+        "cgpa": 6.48,
+        "tech_score": 9,
+        "biz_score": 0,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-006",
+        "program_code": "PGPEX",
+        "cgpa": 6.69,
+        "tech_score": 4,
+        "biz_score": 17,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-008",
+        "program_code": "PGPEX",
+        "cgpa": 6.88,
+        "tech_score": 18,
+        "biz_score": 17,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-024",
+        "program_code": "PGPEX",
+        "cgpa": 7.37,
+        "tech_score": 10,
+        "biz_score": 11,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-018",
+        "program_code": "PGPEX",
+        "cgpa": 8.31,
+        "tech_score": 1,
+        "biz_score": 9,
+        "applications": 0,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-059",
+        "program_code": "PGP",
+        "cgpa": 6.5,
+        "tech_score": 4,
+        "biz_score": 20,
+        "applications": 1,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-026",
+        "program_code": "PGPEX",
+        "cgpa": 6.67,
+        "tech_score": 7,
+        "biz_score": 16,
+        "applications": 1,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "DBA12-021",
+        "program_code": "PGDBA",
+        "cgpa": 6.87,
+        "tech_score": 17,
+        "biz_score": 6,
+        "applications": 1,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-003",
+        "program_code": "PGPEX",
+        "cgpa": 7.33,
+        "tech_score": 5,
+        "biz_score": 11,
+        "applications": 1,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-016",
+        "program_code": "PGPEX",
+        "cgpa": 7.52,
+        "tech_score": 2,
+        "biz_score": 15,
+        "applications": 1,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-010",
+        "program_code": "PGP",
+        "cgpa": 6.77,
+        "tech_score": 5,
+        "biz_score": 20,
+        "applications": 2,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-023",
+        "program_code": "PGPEX",
+        "cgpa": 6.87,
+        "tech_score": 0,
+        "biz_score": 7,
+        "applications": 2,
+        "interview_rate": 0.5,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "DBA12-043",
+        "program_code": "PGDBA",
+        "cgpa": 6.88,
+        "tech_score": 25,
+        "biz_score": 11,
+        "applications": 2,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-025",
+        "program_code": "PGP",
+        "cgpa": 6.99,
+        "tech_score": 11,
+        "biz_score": 13,
+        "applications": 2,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-030",
+        "program_code": "PGPEX",
+        "cgpa": 8.09,
+        "tech_score": 12,
+        "biz_score": 18,
+        "applications": 2,
+        "interview_rate": 0.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-038",
+        "program_code": "PGP",
+        "cgpa": 6.52,
+        "tech_score": 3,
+        "biz_score": 14,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-058",
+        "program_code": "PGP",
+        "cgpa": 6.92,
+        "tech_score": 0,
+        "biz_score": 15,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-009",
+        "program_code": "PGPEX",
+        "cgpa": 7.01,
+        "tech_score": 7,
+        "biz_score": 15,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-011",
+        "program_code": "PGPEX",
+        "cgpa": 7.29,
+        "tech_score": 2,
+        "biz_score": 10,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-010",
+        "program_code": "PGPEX",
+        "cgpa": 7.91,
+        "tech_score": 2,
+        "biz_score": 19,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-025",
+        "program_code": "PGPEX",
+        "cgpa": 8.13,
+        "tech_score": 8,
+        "biz_score": 12,
+        "applications": 3,
+        "interview_rate": 0.333,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-034",
+        "program_code": "PGP",
+        "cgpa": 7.02,
+        "tech_score": 2,
+        "biz_score": 19,
+        "applications": 4,
+        "interview_rate": 0.0,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-078",
+        "program_code": "PGP",
+        "cgpa": 7.1,
+        "tech_score": 4,
+        "biz_score": 21,
+        "applications": 4,
+        "interview_rate": 0.0,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGX20-014",
+        "program_code": "PGPEX",
+        "cgpa": 7.61,
+        "tech_score": 3,
+        "biz_score": 18,
+        "applications": 4,
+        "interview_rate": 0.25,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-071",
+        "program_code": "PGP",
+        "cgpa": 7.09,
+        "tech_score": 5,
+        "biz_score": 7,
+        "applications": 5,
+        "interview_rate": 0.4,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-011",
+        "program_code": "PGP",
+        "cgpa": 7.66,
+        "tech_score": 0,
+        "biz_score": 16,
+        "applications": 5,
+        "interview_rate": 0.2,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-047",
+        "program_code": "PGP",
+        "cgpa": 7.06,
+        "tech_score": 7,
+        "biz_score": 15,
+        "applications": 6,
+        "interview_rate": 0.5,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-073",
+        "program_code": "PGP",
+        "cgpa": 7.06,
+        "tech_score": 0,
+        "biz_score": 11,
+        "applications": 7,
+        "interview_rate": 0.286,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "At-Risk",
+        "roll_no": "PGP62-064",
+        "program_code": "PGP",
+        "cgpa": 7.13,
+        "tech_score": 8,
+        "biz_score": 18,
+        "applications": 7,
+        "interview_rate": 0.286,
+        "suggested_action": "CV review"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "DBA12-015",
+        "program_code": "PGDBA",
+        "cgpa": 6.67,
+        "tech_score": 17,
+        "biz_score": 2,
+        "applications": 1,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-055",
+        "program_code": "PGP",
+        "cgpa": 6.78,
+        "tech_score": 11,
+        "biz_score": 14,
+        "applications": 1,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-082",
+        "program_code": "PGP",
+        "cgpa": 6.78,
+        "tech_score": 11,
+        "biz_score": 11,
+        "applications": 1,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-013",
+        "program_code": "PGPEX",
+        "cgpa": 7.49,
+        "tech_score": 5,
+        "biz_score": 15,
+        "applications": 1,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-004",
+        "program_code": "PGPEX",
+        "cgpa": 9.09,
+        "tech_score": 3,
+        "biz_score": 21,
+        "applications": 1,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-039",
+        "program_code": "PGP",
+        "cgpa": 6.76,
+        "tech_score": 7,
+        "biz_score": 13,
+        "applications": 2,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-018",
+        "program_code": "PGP",
+        "cgpa": 6.87,
+        "tech_score": 13,
+        "biz_score": 12,
+        "applications": 2,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-079",
+        "program_code": "PGP",
+        "cgpa": 6.99,
+        "tech_score": 7,
+        "biz_score": 20,
+        "applications": 2,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-001",
+        "program_code": "PGPEX",
+        "cgpa": 7.78,
+        "tech_score": 4,
+        "biz_score": 15,
+        "applications": 2,
+        "interview_rate": 0.5,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-022",
+        "program_code": "PGPEX",
+        "cgpa": 9.18,
+        "tech_score": 4,
+        "biz_score": 22,
+        "applications": 2,
+        "interview_rate": 1.0,
+        "suggested_action": "Apply to more roles"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-074",
+        "program_code": "PGP",
+        "cgpa": 6.84,
+        "tech_score": 10,
+        "biz_score": 9,
+        "applications": 3,
+        "interview_rate": 0.667,
+        "suggested_action": "Mock interviews"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-020",
+        "program_code": "PGPEX",
+        "cgpa": 7.66,
+        "tech_score": 3,
+        "biz_score": 17,
+        "applications": 3,
+        "interview_rate": 1.0,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-012",
+        "program_code": "PGPEX",
+        "cgpa": 7.8,
+        "tech_score": 2,
+        "biz_score": 12,
+        "applications": 3,
+        "interview_rate": 1.0,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-017",
+        "program_code": "PGPEX",
+        "cgpa": 7.96,
+        "tech_score": 3,
+        "biz_score": 13,
+        "applications": 3,
+        "interview_rate": 0.667,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-060",
+        "program_code": "PGP",
+        "cgpa": 9.69,
+        "tech_score": 8,
+        "biz_score": 12,
+        "applications": 3,
+        "interview_rate": 1.0,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-005",
+        "program_code": "PGPEX",
+        "cgpa": 8.39,
+        "tech_score": 3,
+        "biz_score": 15,
+        "applications": 4,
+        "interview_rate": 0.75,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGX20-028",
+        "program_code": "PGPEX",
+        "cgpa": 8.7,
+        "tech_score": 7,
+        "biz_score": 15,
+        "applications": 4,
+        "interview_rate": 0.75,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-032",
+        "program_code": "PGP",
+        "cgpa": 6.8,
+        "tech_score": 5,
+        "biz_score": 15,
+        "applications": 5,
+        "interview_rate": 0.6,
+        "suggested_action": "Technical skills workshop"
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "roll_no": "PGP62-088",
+        "program_code": "PGP",
+        "cgpa": 7.7,
+        "tech_score": 2,
+        "biz_score": 14,
+        "applications": 6,
+        "interview_rate": 0.833,
+        "suggested_action": "Technical skills workshop"
+      }
+    ],
+    "segment_profile": [
+      {
+        "segment": 0,
+        "segment_name": "High-Achieving Generalists",
+        "students": 68,
+        "avg_cgpa": 8.27,
+        "avg_tech": 5.0,
+        "avg_biz": 13.7,
+        "avg_apps": 8.9,
+        "avg_interview_rate": 0.45,
+        "avg_offers": 0.87,
+        "accepted_pct": 41.2,
+        "avg_best_ctc": 27.0
+      },
+      {
+        "segment": 1,
+        "segment_name": "Tech Specialists",
+        "students": 56,
+        "avg_cgpa": 7.92,
+        "avg_tech": 17.8,
+        "avg_biz": 3.8,
+        "avg_apps": 8.1,
+        "avg_interview_rate": 0.45,
+        "avg_offers": 0.57,
+        "accepted_pct": 35.7,
+        "avg_best_ctc": 29.3
+      },
+      {
+        "segment": 2,
+        "segment_name": "Selective Appliers",
+        "students": 19,
+        "avg_cgpa": 7.68,
+        "avg_tech": 6.6,
+        "avg_biz": 14.1,
+        "avg_apps": 2.6,
+        "avg_interview_rate": 0.88,
+        "avg_offers": 0.21,
+        "accepted_pct": 0.0,
+        "avg_best_ctc": 25.75
+      },
+      {
+        "segment": 3,
+        "segment_name": "At-Risk",
+        "students": 34,
+        "avg_cgpa": 7.08,
+        "avg_tech": 6.6,
+        "avg_biz": 13.9,
+        "avg_apps": 2.3,
+        "avg_interview_rate": 0.14,
+        "avg_offers": 0.03,
+        "accepted_pct": 2.9,
+        "avg_best_ctc": null
+      }
+    ],
+    "s2_actions": [
+      {
+        "segment_name": "At-Risk",
+        "suggested_action": "Apply to more roles",
+        "n": 19
+      },
+      {
+        "segment_name": "At-Risk",
+        "suggested_action": "CV review",
+        "n": 12
+      },
+      {
+        "segment_name": "At-Risk",
+        "suggested_action": "Technical skills workshop",
+        "n": 2
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "suggested_action": "Apply to more roles",
+        "n": 10
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "suggested_action": "Technical skills workshop",
+        "n": 8
+      },
+      {
+        "segment_name": "Selective Appliers",
+        "suggested_action": "Mock interviews",
+        "n": 1
+      }
+    ],
+    "model": {
+      "n_students": 177,
+      "features": [
+        "cgpa",
+        "tech_score",
+        "biz_score",
+        "applications",
+        "interview_rate"
+      ],
+      "k": 4,
+      "k_scan": [
+        {
+          "k": 2,
+          "inertia": 638.6,
+          "silhouette": 0.276
+        },
+        {
+          "k": 3,
+          "inertia": 484.9,
+          "silhouette": 0.283
+        },
+        {
+          "k": 4,
+          "inertia": 405.1,
+          "silhouette": 0.298
+        },
+        {
+          "k": 5,
+          "inertia": 361.2,
+          "silhouette": 0.269
+        },
+        {
+          "k": 6,
+          "inertia": 325.1,
+          "silhouette": 0.23
+        },
+        {
+          "k": 7,
+          "inertia": 296.6,
+          "silhouette": 0.228
+        },
+        {
+          "k": 8,
+          "inertia": 273.9,
+          "silhouette": 0.232
+        }
+      ],
+      "anova_cgpa_program": {
+        "F": 0.1,
+        "p": 0.907
+      },
+      "chi2_segment_offer": {
+        "chi2": 25.7,
+        "dof": 3,
+        "p": 1.1e-05
+      },
+      "corr_tech_biz": -0.68,
+      "pointbiserial_accepted": {
+        "cgpa": {
+          "r": 0.54,
+          "p": 8.3e-15
+        },
+        "applications": {
+          "r": 0.41,
+          "p": 1.3e-08
+        },
+        "interview_rate": {
+          "r": -0.1,
+          "p": 0.19
+        }
+      },
+      "kruskal_offers": {
+        "H": 30.9,
+        "p": 9e-07
+      },
+      "pca_var_pct": [
+        35.9,
+        30.7
+      ],
+      "logit_coef": {
+        "cgpa": 1.68,
+        "tech_score": 0.06,
+        "biz_score": -0.28,
+        "applications": 0.71,
+        "interview_rate": -0.18
+      },
+      "threshold": [
+        {
+          "t": 0.1,
+          "flagged": 43,
+          "TP": 42,
+          "FP": 1,
+          "FN": 69,
+          "TN": 65,
+          "precision": 0.98,
+          "recall": 0.38
+        },
+        {
+          "t": 0.2,
+          "flagged": 67,
+          "TP": 63,
+          "FP": 4,
+          "FN": 48,
+          "TN": 62,
+          "precision": 0.94,
+          "recall": 0.57
+        },
+        {
+          "t": 0.3,
+          "flagged": 86,
+          "TP": 78,
+          "FP": 8,
+          "FN": 33,
+          "TN": 58,
+          "precision": 0.91,
+          "recall": 0.7
+        },
+        {
+          "t": 0.4,
+          "flagged": 97,
+          "TP": 83,
+          "FP": 14,
+          "FN": 28,
+          "TN": 52,
+          "precision": 0.86,
+          "recall": 0.75
+        },
+        {
+          "t": 0.5,
+          "flagged": 107,
+          "TP": 89,
+          "FP": 18,
+          "FN": 22,
+          "TN": 48,
+          "precision": 0.83,
+          "recall": 0.8
+        },
+        {
+          "t": 0.6,
+          "flagged": 127,
+          "TP": 99,
+          "FP": 28,
+          "FN": 12,
+          "TN": 38,
+          "precision": 0.78,
+          "recall": 0.89
+        },
+        {
+          "t": 0.7,
+          "flagged": 137,
+          "TP": 104,
+          "FP": 33,
+          "FN": 7,
+          "TN": 33,
+          "precision": 0.76,
+          "recall": 0.94
+        },
+        {
+          "t": 0.8,
+          "flagged": 152,
+          "TP": 108,
+          "FP": 44,
+          "FN": 3,
+          "TN": 22,
+          "precision": 0.71,
+          "recall": 0.97
+        },
+        {
+          "t": 0.9,
+          "flagged": 163,
+          "TP": 111,
+          "FP": 52,
+          "FN": 0,
+          "TN": 14,
+          "precision": 0.68,
+          "recall": 1.0
+        }
+      ]
+    }
+  },
   "tests": {
-    "started_utc": "2026-10-28T18:25:22.719388+00:00",
-    "finished_utc": "2026-10-28T18:25:45.407621+00:00",
+    "started_utc": "2026-10-29T11:54:31.142225+00:00",
+    "finished_utc": "2026-10-29T11:54:53.061884+00:00",
     "environment": {
       "postgres": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
       "python": "3.12.7",
-      "pytest": "8.3.3",
+      "pytest": "7.4.4",
       "psycopg": "3.2.9",
       "os": "Windows 11"
     },
@@ -875,7 +2007,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_health",
         "outcome": "passed",
-        "duration_ms": 112.3,
+        "duration_ms": 95.0,
         "message": ""
       },
       {
@@ -886,7 +2018,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_summary_kpis",
         "outcome": "passed",
-        "duration_ms": 90.3,
+        "duration_ms": 87.1,
         "message": ""
       },
       {
@@ -897,7 +2029,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_student_search",
         "outcome": "passed",
-        "duration_ms": 70.1,
+        "duration_ms": 61.4,
         "message": ""
       },
       {
@@ -908,7 +2040,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_unknown_student_404",
         "outcome": "passed",
-        "duration_ms": 51.1,
+        "duration_ms": 47.3,
         "message": ""
       },
       {
@@ -919,7 +2051,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_job_endpoints",
         "outcome": "passed",
-        "duration_ms": 152.0,
+        "duration_ms": 150.7,
         "message": ""
       },
       {
@@ -930,7 +2062,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_queries_run",
         "outcome": "passed",
-        "duration_ms": 380.5,
+        "duration_ms": 453.3,
         "message": ""
       },
       {
@@ -941,7 +2073,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_rule_violation_is_explained",
         "outcome": "passed",
-        "duration_ms": 61.3,
+        "duration_ms": 59.9,
         "message": ""
       },
       {
@@ -952,7 +2084,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_accept_offer_returns_cascade",
         "outcome": "passed",
-        "duration_ms": 243.1,
+        "duration_ms": 269.7,
         "message": ""
       },
       {
@@ -963,7 +2095,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_decline_non_pending_conflict",
         "outcome": "passed",
-        "duration_ms": 144.5,
+        "duration_ms": 255.1,
         "message": ""
       },
       {
@@ -974,7 +2106,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_ui_served",
         "outcome": "passed",
-        "duration_ms": 144.1,
+        "duration_ms": 103.7,
         "message": ""
       },
       {
@@ -985,7 +2117,7 @@
         "module": "api",
         "nodeid": "tests/test_api.py::test_reset_endpoint",
         "outcome": "passed",
-        "duration_ms": 1228.1,
+        "duration_ms": 1449.6,
         "message": ""
       },
       {
@@ -996,7 +2128,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_cgpa_domain",
         "outcome": "passed",
-        "duration_ms": 14.1,
+        "duration_ms": 13.7,
         "message": ""
       },
       {
@@ -1007,7 +2139,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_email_domain",
         "outcome": "passed",
-        "duration_ms": 4.6,
+        "duration_ms": 4.1,
         "message": ""
       },
       {
@@ -1018,7 +2150,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_roll_number_alternate_key",
         "outcome": "passed",
-        "duration_ms": 13.9,
+        "duration_ms": 11.0,
         "message": ""
       },
       {
@@ -1029,7 +2161,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_disjoint_specialisation",
         "outcome": "passed",
-        "duration_ms": 9.8,
+        "duration_ms": 7.8,
         "message": ""
       },
       {
@@ -1040,7 +2172,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_total_specialisation",
         "outcome": "passed",
-        "duration_ms": 17.1,
+        "duration_ms": 17.0,
         "message": ""
       },
       {
@@ -1051,7 +2183,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_recruiter_must_work_for_company",
         "outcome": "passed",
-        "duration_ms": 8.7,
+        "duration_ms": 7.8,
         "message": ""
       },
       {
@@ -1062,7 +2194,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_apply_at_most_once",
         "outcome": "passed",
-        "duration_ms": 23.9,
+        "duration_ms": 22.4,
         "message": ""
       },
       {
@@ -1073,7 +2205,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_interview_round_must_exist",
         "outcome": "passed",
-        "duration_ms": 17.9,
+        "duration_ms": 18.3,
         "message": ""
       },
       {
@@ -1084,7 +2216,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_interview_requires_application",
         "outcome": "passed",
-        "duration_ms": 10.8,
+        "duration_ms": 8.9,
         "message": ""
       },
       {
@@ -1095,7 +2227,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_no_double_booking",
         "outcome": "passed",
-        "duration_ms": 13.2,
+        "duration_ms": 11.5,
         "message": ""
       },
       {
@@ -1106,7 +2238,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_slot_order",
         "outcome": "passed",
-        "duration_ms": 5.3,
+        "duration_ms": 4.5,
         "message": ""
       },
       {
@@ -1117,7 +2249,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_one_offer_per_application",
         "outcome": "passed",
-        "duration_ms": 9.8,
+        "duration_ms": 11.4,
         "message": ""
       },
       {
@@ -1128,7 +2260,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_responded_at_iff_responded",
         "outcome": "passed",
-        "duration_ms": 8.3,
+        "duration_ms": 7.4,
         "message": ""
       },
       {
@@ -1139,7 +2271,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_sponsor_union_type",
         "outcome": "passed",
-        "duration_ms": 6.0,
+        "duration_ms": 5.5,
         "message": ""
       },
       {
@@ -1150,7 +2282,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_restrict_blocks_cascade",
         "outcome": "passed",
-        "duration_ms": 28.8,
+        "duration_ms": 28.6,
         "message": ""
       },
       {
@@ -1161,7 +2293,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_cascade_delete_student_without_offers",
         "outcome": "passed",
-        "duration_ms": 23.0,
+        "duration_ms": 30.4,
         "message": ""
       },
       {
@@ -1172,7 +2304,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_set_null_on_recruiter_delete",
         "outcome": "passed",
-        "duration_ms": 16.3,
+        "duration_ms": 13.0,
         "message": ""
       },
       {
@@ -1183,7 +2315,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_program_restrict",
         "outcome": "passed",
-        "duration_ms": 7.1,
+        "duration_ms": 7.2,
         "message": ""
       },
       {
@@ -1194,7 +2326,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_fixed_pay_not_above_ctc",
         "outcome": "passed",
-        "duration_ms": 3.9,
+        "duration_ms": 3.6,
         "message": ""
       },
       {
@@ -1205,7 +2337,7 @@
         "module": "constraints",
         "nodeid": "tests/test_constraints.py::test_cycle_dates",
         "outcome": "passed",
-        "duration_ms": 4.5,
+        "duration_ms": 3.8,
         "message": ""
       },
       {
@@ -1216,7 +2348,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_seed_volumes",
         "outcome": "passed",
-        "duration_ms": 18.6,
+        "duration_ms": 17.0,
         "message": ""
       },
       {
@@ -1227,7 +2359,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_seed_is_deterministic",
         "outcome": "passed",
-        "duration_ms": 1117.1,
+        "duration_ms": 1401.3,
         "message": ""
       },
       {
@@ -1238,7 +2370,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_one_accepted_offer_per_cycle",
         "outcome": "passed",
-        "duration_ms": 7.4,
+        "duration_ms": 9.1,
         "message": ""
       },
       {
@@ -1249,7 +2381,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_no_overlapping_interviews",
         "outcome": "passed",
-        "duration_ms": 12.3,
+        "duration_ms": 11.4,
         "message": ""
       },
       {
@@ -1260,7 +2392,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_applications_meet_eligibility",
         "outcome": "passed",
-        "duration_ms": 12.3,
+        "duration_ms": 10.5,
         "message": ""
       },
       {
@@ -1271,7 +2403,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_timestamps_consistent",
         "outcome": "passed",
-        "duration_ms": 9.6,
+        "duration_ms": 6.5,
         "message": ""
       },
       {
@@ -1282,7 +2414,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_offers_mark_applications",
         "outcome": "passed",
-        "duration_ms": 8.9,
+        "duration_ms": 5.8,
         "message": ""
       },
       {
@@ -1293,7 +2425,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_every_job_has_exactly_one_subtype",
         "outcome": "passed",
-        "duration_ms": 7.8,
+        "duration_ms": 7.1,
         "message": ""
       },
       {
@@ -1304,7 +2436,7 @@
         "module": "data",
         "nodeid": "tests/test_data.py::test_round_progression",
         "outcome": "passed",
-        "duration_ms": 5.0,
+        "duration_ms": 4.3,
         "message": ""
       },
       {
@@ -1315,7 +2447,7 @@
         "module": "performance",
         "nodeid": "tests/test_performance.py::test_composite_index_speedup",
         "outcome": "passed",
-        "duration_ms": 1065.0,
+        "duration_ms": 1013.6,
         "message": ""
       },
       {
@@ -1326,7 +2458,7 @@
         "module": "performance",
         "nodeid": "tests/test_performance.py::test_partial_index_smaller",
         "outcome": "passed",
-        "duration_ms": 988.2,
+        "duration_ms": 869.0,
         "message": ""
       },
       {
@@ -1337,7 +2469,7 @@
         "module": "performance",
         "nodeid": "tests/test_performance.py::test_leading_column_rule",
         "outcome": "passed",
-        "duration_ms": 965.9,
+        "duration_ms": 792.6,
         "message": ""
       },
       {
@@ -1348,7 +2480,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_all_five_queries_parsed",
         "outcome": "passed",
-        "duration_ms": 0.2,
+        "duration_ms": 0.1,
         "message": ""
       },
       {
@@ -1359,7 +2491,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_placement_status_matches_offers",
         "outcome": "passed",
-        "duration_ms": 51.0,
+        "duration_ms": 36.4,
         "message": ""
       },
       {
@@ -1370,7 +2502,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_job_details_one_pay_per_job",
         "outcome": "passed",
-        "duration_ms": 13.5,
+        "duration_ms": 12.6,
         "message": ""
       },
       {
@@ -1381,7 +2513,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q1_selectivity",
         "outcome": "passed",
-        "duration_ms": 27.4,
+        "duration_ms": 22.2,
         "message": ""
       },
       {
@@ -1392,7 +2524,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q2_talent_match",
         "outcome": "passed",
-        "duration_ms": 23.7,
+        "duration_ms": 18.8,
         "message": ""
       },
       {
@@ -1403,7 +2535,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q2_division_equals_counting",
         "outcome": "passed",
-        "duration_ms": 55.3,
+        "duration_ms": 33.9,
         "message": ""
       },
       {
@@ -1414,7 +2546,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q3_ranking",
         "outcome": "passed",
-        "duration_ms": 31.0,
+        "duration_ms": 32.0,
         "message": ""
       },
       {
@@ -1425,7 +2557,7 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q4_running_total",
         "outcome": "passed",
-        "duration_ms": 15.8,
+        "duration_ms": 16.2,
         "message": ""
       },
       {
@@ -1436,18 +2568,18 @@
         "module": "queries",
         "nodeid": "tests/test_queries.py::test_q5_hidden_gems",
         "outcome": "passed",
-        "duration_ms": 53.1,
+        "duration_ms": 53.4,
         "message": ""
       },
       {
         "id": "TC-SCH-01",
         "requirement": "Design",
-        "title": "The schema contains exactly the 22 designed tables",
+        "title": "The schema contains exactly the 22 designed tables, plus the 2 analytics tables",
         "detail": "",
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_table_count",
         "outcome": "passed",
-        "duration_ms": 10.1,
+        "duration_ms": 8.2,
         "message": ""
       },
       {
@@ -1458,18 +2590,18 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_every_table_has_primary_key",
         "outcome": "passed",
-        "duration_ms": 8.4,
+        "duration_ms": 9.1,
         "message": ""
       },
       {
         "id": "TC-SCH-03",
         "requirement": "Referential integrity",
-        "title": "All 30 designed foreign keys exist",
+        "title": "All 30 designed foreign keys exist, plus 2 on the analytics tables",
         "detail": "Includes the composite FKs used for disjointness, the sponsor category, the recruiter-company consistency rule and the interview aggregation.",
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_foreign_keys_present",
         "outcome": "passed",
-        "duration_ms": 6.0,
+        "duration_ms": 5.4,
         "message": ""
       },
       {
@@ -1480,7 +2612,7 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_foreign_keys_are_indexed",
         "outcome": "passed",
-        "duration_ms": 7.6,
+        "duration_ms": 5.9,
         "message": ""
       },
       {
@@ -1491,7 +2623,7 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_check_constraints_present",
         "outcome": "passed",
-        "duration_ms": 5.7,
+        "duration_ms": 6.0,
         "message": ""
       },
       {
@@ -1502,7 +2634,7 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_exclusion_constraint_present",
         "outcome": "passed",
-        "duration_ms": 4.5,
+        "duration_ms": 3.6,
         "message": ""
       },
       {
@@ -1513,18 +2645,18 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_identity_sequences_ahead_of_data",
         "outcome": "passed",
-        "duration_ms": 36.4,
+        "duration_ms": 24.7,
         "message": ""
       },
       {
         "id": "TC-SCH-08",
         "requirement": "Views",
-        "title": "Both views (v_job_details, v_placement_status) exist",
+        "title": "The two operational views and the two analytics views exist",
         "detail": "",
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_views_exist",
         "outcome": "passed",
-        "duration_ms": 9.4,
+        "duration_ms": 8.1,
         "message": ""
       },
       {
@@ -1535,7 +2667,7 @@
         "module": "schema",
         "nodeid": "tests/test_schema.py::test_triggers_installed",
         "outcome": "passed",
-        "duration_ms": 7.8,
+        "duration_ms": 7.4,
         "message": ""
       },
       {
@@ -1557,7 +2689,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_readonly_can_read_granted_tables",
         "outcome": "passed",
-        "duration_ms": 6.4,
+        "duration_ms": 7.9,
         "message": ""
       },
       {
@@ -1568,7 +2700,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_readonly_cannot_read_other_tables",
         "outcome": "passed",
-        "duration_ms": 5.8,
+        "duration_ms": 8.5,
         "message": ""
       },
       {
@@ -1579,7 +2711,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_readonly_cannot_write",
         "outcome": "passed",
-        "duration_ms": 9.6,
+        "duration_ms": 32.9,
         "message": ""
       },
       {
@@ -1590,7 +2722,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_readonly_cannot_read_server_files",
         "outcome": "passed",
-        "duration_ms": 1.6,
+        "duration_ms": 1.8,
         "message": ""
       },
       {
@@ -1601,7 +2733,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_unsafe_search_leaks_everything",
         "outcome": "passed",
-        "duration_ms": 52.2,
+        "duration_ms": 55.1,
         "message": ""
       },
       {
@@ -1612,7 +2744,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_safe_search_treats_input_as_data",
         "outcome": "passed",
-        "duration_ms": 47.2,
+        "duration_ms": 51.5,
         "message": ""
       },
       {
@@ -1623,7 +2755,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_union_injection_exposes_other_columns",
         "outcome": "passed",
-        "duration_ms": 48.2,
+        "duration_ms": 51.1,
         "message": ""
       },
       {
@@ -1634,7 +2766,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_destructive_injection_is_contained",
         "outcome": "passed",
-        "duration_ms": 160.6,
+        "duration_ms": 47.7,
         "message": ""
       },
       {
@@ -1645,7 +2777,7 @@
         "module": "security",
         "nodeid": "tests/test_security.py::test_parameterised_procedure_is_injection_safe",
         "outcome": "passed",
-        "duration_ms": 8.1,
+        "duration_ms": 5.9,
         "message": ""
       },
       {
@@ -1656,7 +2788,7 @@
         "module": "transactions",
         "nodeid": "tests/test_transactions.py::test_rollback_undoes_cascade",
         "outcome": "passed",
-        "duration_ms": 32.9,
+        "duration_ms": 31.7,
         "message": ""
       },
       {
@@ -1667,7 +2799,7 @@
         "module": "transactions",
         "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_blocks",
         "outcome": "passed",
-        "duration_ms": 861.8,
+        "duration_ms": 864.3,
         "message": ""
       },
       {
@@ -1678,7 +2810,7 @@
         "module": "transactions",
         "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_serialises",
         "outcome": "passed",
-        "duration_ms": 817.4,
+        "duration_ms": 908.9,
         "message": ""
       },
       {
@@ -1689,7 +2821,7 @@
         "module": "transactions",
         "nodeid": "tests/test_transactions.py::test_deferred_constraint_at_commit",
         "outcome": "passed",
-        "duration_ms": 106.4,
+        "duration_ms": 213.3,
         "message": ""
       },
       {
@@ -1700,7 +2832,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_below_cutoff",
         "outcome": "passed",
-        "duration_ms": 10.7,
+        "duration_ms": 10.6,
         "message": ""
       },
       {
@@ -1711,7 +2843,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_opted_out",
         "outcome": "passed",
-        "duration_ms": 9.3,
+        "duration_ms": 8.8,
         "message": ""
       },
       {
@@ -1722,7 +2854,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_after_deadline",
         "outcome": "passed",
-        "duration_ms": 12.2,
+        "duration_ms": 8.9,
         "message": ""
       },
       {
@@ -1733,7 +2865,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_ineligible_program",
         "outcome": "passed",
-        "duration_ms": 19.2,
+        "duration_ms": 18.4,
         "message": ""
       },
       {
@@ -1744,7 +2876,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_backlogs",
         "outcome": "passed",
-        "duration_ms": 19.1,
+        "duration_ms": 19.0,
         "message": ""
       },
       {
@@ -1755,7 +2887,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_rejects_already_placed",
         "outcome": "passed",
-        "duration_ms": 13.9,
+        "duration_ms": 15.8,
         "message": ""
       },
       {
@@ -1766,7 +2898,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_accepts_eligible_application",
         "outcome": "passed",
-        "duration_ms": 20.8,
+        "duration_ms": 20.3,
         "message": ""
       },
       {
@@ -1777,7 +2909,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_offer_requires_open_application",
         "outcome": "passed",
-        "duration_ms": 6.8,
+        "duration_ms": 6.2,
         "message": ""
       },
       {
@@ -1788,7 +2920,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_offer_marks_application_offered",
         "outcome": "passed",
-        "duration_ms": 18.5,
+        "duration_ms": 17.3,
         "message": ""
       },
       {
@@ -1799,7 +2931,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_accept_cascade",
         "outcome": "passed",
-        "duration_ms": 44.6,
+        "duration_ms": 29.8,
         "message": ""
       },
       {
@@ -1810,7 +2942,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_view_reflects_acceptance",
         "outcome": "passed",
-        "duration_ms": 40.8,
+        "duration_ms": 42.1,
         "message": ""
       },
       {
@@ -1821,7 +2953,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_cannot_accept_declined_offer",
         "outcome": "passed",
-        "duration_ms": 35.2,
+        "duration_ms": 24.4,
         "message": ""
       },
       {
@@ -1832,7 +2964,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_one_offer_rule_is_per_cycle",
         "outcome": "passed",
-        "duration_ms": 36.1,
+        "duration_ms": 29.7,
         "message": ""
       },
       {
@@ -1843,7 +2975,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_cannot_accept_after_deadline",
         "outcome": "passed",
-        "duration_ms": 11.6,
+        "duration_ms": 10.4,
         "message": ""
       },
       {
@@ -1854,7 +2986,7 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_expire_stale_offers",
         "outcome": "passed",
-        "duration_ms": 20.4,
+        "duration_ms": 19.1,
         "message": ""
       },
       {
@@ -1865,17 +2997,17 @@
         "module": "triggers",
         "nodeid": "tests/test_triggers.py::test_apply_unknown_roll",
         "outcome": "passed",
-        "duration_ms": 7.1,
+        "duration_ms": 4.9,
         "message": ""
       }
     ]
   },
   "performance": {
-    "seq_scan_ms": 62.654,
-    "composite_index_ms": 0.029,
+    "seq_scan_ms": 60.839,
+    "composite_index_ms": 0.025,
     "full_index_kb": 4488,
     "partial_index_kb": 176,
-    "partial_index_ms": 0.021,
+    "partial_index_ms": 0.018,
     "seek_blocks": 3,
     "status_only_blocks": 4383
   },

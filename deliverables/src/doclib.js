@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, "..");
 const PROJECT = path.resolve(ROOT, "..");
 const D = JSON.parse(fs.readFileSync(path.join(__dirname, "data.json"), "utf8"));
 const TEAM = ["Ekta Sharma", "[Member 2]", "[Member 3]", "[Member 4]"];
-const SEG = ["Problem & EER", "Schema & normalization", "DDL, data & queries", "Rules, transactions & performance"];
+const SEG = ["Problem & EER", "Schema, normalization & DDL", "SQL queries & rules", "Analytics & performance"];
 
 const COLOR = { indigo: "4F46E5", indigoDark: "312E81", ink: "1F2937", body: "374151", muted: "6B7280",
   soft: "F3F4F8", line: "D1D5DB", amberSoft: "FFF4E6", amber: "C2410C", tealSoft: "E6F6F3", teal: "0F766E",

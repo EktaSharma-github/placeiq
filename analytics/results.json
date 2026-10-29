@@ -1,0 +1,179 @@
+{
+  "n_students": 177,
+  "features": [
+    "cgpa",
+    "tech_score",
+    "biz_score",
+    "applications",
+    "interview_rate"
+  ],
+  "k": 4,
+  "k_scan": [
+    {
+      "k": 2,
+      "inertia": 638.6,
+      "silhouette": 0.276
+    },
+    {
+      "k": 3,
+      "inertia": 484.9,
+      "silhouette": 0.283
+    },
+    {
+      "k": 4,
+      "inertia": 405.1,
+      "silhouette": 0.298
+    },
+    {
+      "k": 5,
+      "inertia": 361.2,
+      "silhouette": 0.269
+    },
+    {
+      "k": 6,
+      "inertia": 325.1,
+      "silhouette": 0.23
+    },
+    {
+      "k": 7,
+      "inertia": 296.6,
+      "silhouette": 0.228
+    },
+    {
+      "k": 8,
+      "inertia": 273.9,
+      "silhouette": 0.232
+    }
+  ],
+  "anova_cgpa_program": {
+    "F": 0.1,
+    "p": 0.907
+  },
+  "chi2_segment_offer": {
+    "chi2": 25.7,
+    "dof": 3,
+    "p": 1.1e-05
+  },
+  "corr_tech_biz": -0.68,
+  "pointbiserial_accepted": {
+    "cgpa": {
+      "r": 0.54,
+      "p": 8.3e-15
+    },
+    "applications": {
+      "r": 0.41,
+      "p": 1.3e-08
+    },
+    "interview_rate": {
+      "r": -0.1,
+      "p": 0.19
+    }
+  },
+  "kruskal_offers": {
+    "H": 30.9,
+    "p": 9e-07
+  },
+  "pca_var_pct": [
+    35.9,
+    30.7
+  ],
+  "logit_coef": {
+    "cgpa": 1.68,
+    "tech_score": 0.06,
+    "biz_score": -0.28,
+    "applications": 0.71,
+    "interview_rate": -0.18
+  },
+  "threshold": [
+    {
+      "t": 0.1,
+      "flagged": 43,
+      "TP": 42,
+      "FP": 1,
+      "FN": 69,
+      "TN": 65,
+      "precision": 0.98,
+      "recall": 0.38
+    },
+    {
+      "t": 0.2,
+      "flagged": 67,
+      "TP": 63,
+      "FP": 4,
+      "FN": 48,
+      "TN": 62,
+      "precision": 0.94,
+      "recall": 0.57
+    },
+    {
+      "t": 0.3,
+      "flagged": 86,
+      "TP": 78,
+      "FP": 8,
+      "FN": 33,
+      "TN": 58,
+      "precision": 0.91,
+      "recall": 0.7
+    },
+    {
+      "t": 0.4,
+      "flagged": 97,
+      "TP": 83,
+      "FP": 14,
+      "FN": 28,
+      "TN": 52,
+      "precision": 0.86,
+      "recall": 0.75
+    },
+    {
+      "t": 0.5,
+      "flagged": 107,
+      "TP": 89,
+      "FP": 18,
+      "FN": 22,
+      "TN": 48,
+      "precision": 0.83,
+      "recall": 0.8
+    },
+    {
+      "t": 0.6,
+      "flagged": 127,
+      "TP": 99,
+      "FP": 28,
+      "FN": 12,
+      "TN": 38,
+      "precision": 0.78,
+      "recall": 0.89
+    },
+    {
+      "t": 0.7,
+      "flagged": 137,
+      "TP": 104,
+      "FP": 33,
+      "FN": 7,
+      "TN": 33,
+      "precision": 0.76,
+      "recall": 0.94
+    },
+    {
+      "t": 0.8,
+      "flagged": 152,
+      "TP": 108,
+      "FP": 44,
+      "FN": 3,
+      "TN": 22,
+      "precision": 0.71,
+      "recall": 0.97
+    },
+    {
+      "t": 0.9,
+      "flagged": 163,
+      "TP": 111,
+      "FP": 52,
+      "FN": 0,
+      "TN": 14,
+      "precision": 0.68,
+      "recall": 1.0
+    }
+  ]
+}

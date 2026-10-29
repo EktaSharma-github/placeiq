@@ -1,10 +1,10 @@
 {
-  "started_utc": "2026-10-28T18:25:22.719388+00:00",
-  "finished_utc": "2026-10-28T18:25:45.407621+00:00",
+  "started_utc": "2026-10-29T11:54:31.142225+00:00",
+  "finished_utc": "2026-10-29T11:54:53.061884+00:00",
   "environment": {
     "postgres": "PostgreSQL 18.6 on x86_64-windows, compiled by msvc-19.44.35228, 64-bit",
     "python": "3.12.7",
-    "pytest": "8.3.3",
+    "pytest": "7.4.4",
     "psycopg": "3.2.9",
     "os": "Windows 11"
   },
@@ -23,7 +23,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_health",
       "outcome": "passed",
-      "duration_ms": 112.3,
+      "duration_ms": 95.0,
       "message": ""
     },
     {
@@ -34,7 +34,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_summary_kpis",
       "outcome": "passed",
-      "duration_ms": 90.3,
+      "duration_ms": 87.1,
       "message": ""
     },
     {
@@ -45,7 +45,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_student_search",
       "outcome": "passed",
-      "duration_ms": 70.1,
+      "duration_ms": 61.4,
       "message": ""
     },
     {
@@ -56,7 +56,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_unknown_student_404",
       "outcome": "passed",
-      "duration_ms": 51.1,
+      "duration_ms": 47.3,
       "message": ""
     },
     {
@@ -67,7 +67,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_job_endpoints",
       "outcome": "passed",
-      "duration_ms": 152.0,
+      "duration_ms": 150.7,
       "message": ""
     },
     {
@@ -78,7 +78,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_queries_run",
       "outcome": "passed",
-      "duration_ms": 380.5,
+      "duration_ms": 453.3,
       "message": ""
     },
     {
@@ -89,7 +89,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_rule_violation_is_explained",
       "outcome": "passed",
-      "duration_ms": 61.3,
+      "duration_ms": 59.9,
       "message": ""
     },
     {
@@ -100,7 +100,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_accept_offer_returns_cascade",
       "outcome": "passed",
-      "duration_ms": 243.1,
+      "duration_ms": 269.7,
       "message": ""
     },
     {
@@ -111,7 +111,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_decline_non_pending_conflict",
       "outcome": "passed",
-      "duration_ms": 144.5,
+      "duration_ms": 255.1,
       "message": ""
     },
     {
@@ -122,7 +122,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_ui_served",
       "outcome": "passed",
-      "duration_ms": 144.1,
+      "duration_ms": 103.7,
       "message": ""
     },
     {
@@ -133,7 +133,7 @@
       "module": "api",
       "nodeid": "tests/test_api.py::test_reset_endpoint",
       "outcome": "passed",
-      "duration_ms": 1228.1,
+      "duration_ms": 1449.6,
       "message": ""
     },
     {
@@ -144,7 +144,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_cgpa_domain",
       "outcome": "passed",
-      "duration_ms": 14.1,
+      "duration_ms": 13.7,
       "message": ""
     },
     {
@@ -155,7 +155,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_email_domain",
       "outcome": "passed",
-      "duration_ms": 4.6,
+      "duration_ms": 4.1,
       "message": ""
     },
     {
@@ -166,7 +166,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_roll_number_alternate_key",
       "outcome": "passed",
-      "duration_ms": 13.9,
+      "duration_ms": 11.0,
       "message": ""
     },
     {
@@ -177,7 +177,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_disjoint_specialisation",
       "outcome": "passed",
-      "duration_ms": 9.8,
+      "duration_ms": 7.8,
       "message": ""
     },
     {
@@ -188,7 +188,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_total_specialisation",
       "outcome": "passed",
-      "duration_ms": 17.1,
+      "duration_ms": 17.0,
       "message": ""
     },
     {
@@ -199,7 +199,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_recruiter_must_work_for_company",
       "outcome": "passed",
-      "duration_ms": 8.7,
+      "duration_ms": 7.8,
       "message": ""
     },
     {
@@ -210,7 +210,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_apply_at_most_once",
       "outcome": "passed",
-      "duration_ms": 23.9,
+      "duration_ms": 22.4,
       "message": ""
     },
     {
@@ -221,7 +221,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_interview_round_must_exist",
       "outcome": "passed",
-      "duration_ms": 17.9,
+      "duration_ms": 18.3,
       "message": ""
     },
     {
@@ -232,7 +232,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_interview_requires_application",
       "outcome": "passed",
-      "duration_ms": 10.8,
+      "duration_ms": 8.9,
       "message": ""
     },
     {
@@ -243,7 +243,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_no_double_booking",
       "outcome": "passed",
-      "duration_ms": 13.2,
+      "duration_ms": 11.5,
       "message": ""
     },
     {
@@ -254,7 +254,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_slot_order",
       "outcome": "passed",
-      "duration_ms": 5.3,
+      "duration_ms": 4.5,
       "message": ""
     },
     {
@@ -265,7 +265,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_one_offer_per_application",
       "outcome": "passed",
-      "duration_ms": 9.8,
+      "duration_ms": 11.4,
       "message": ""
     },
     {
@@ -276,7 +276,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_responded_at_iff_responded",
       "outcome": "passed",
-      "duration_ms": 8.3,
+      "duration_ms": 7.4,
       "message": ""
     },
     {
@@ -287,7 +287,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_sponsor_union_type",
       "outcome": "passed",
-      "duration_ms": 6.0,
+      "duration_ms": 5.5,
       "message": ""
     },
     {
@@ -298,7 +298,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_restrict_blocks_cascade",
       "outcome": "passed",
-      "duration_ms": 28.8,
+      "duration_ms": 28.6,
       "message": ""
     },
     {
@@ -309,7 +309,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_cascade_delete_student_without_offers",
       "outcome": "passed",
-      "duration_ms": 23.0,
+      "duration_ms": 30.4,
       "message": ""
     },
     {
@@ -320,7 +320,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_set_null_on_recruiter_delete",
       "outcome": "passed",
-      "duration_ms": 16.3,
+      "duration_ms": 13.0,
       "message": ""
     },
     {
@@ -331,7 +331,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_program_restrict",
       "outcome": "passed",
-      "duration_ms": 7.1,
+      "duration_ms": 7.2,
       "message": ""
     },
     {
@@ -342,7 +342,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_fixed_pay_not_above_ctc",
       "outcome": "passed",
-      "duration_ms": 3.9,
+      "duration_ms": 3.6,
       "message": ""
     },
     {
@@ -353,7 +353,7 @@
       "module": "constraints",
       "nodeid": "tests/test_constraints.py::test_cycle_dates",
       "outcome": "passed",
-      "duration_ms": 4.5,
+      "duration_ms": 3.8,
       "message": ""
     },
     {
@@ -364,7 +364,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_seed_volumes",
       "outcome": "passed",
-      "duration_ms": 18.6,
+      "duration_ms": 17.0,
       "message": ""
     },
     {
@@ -375,7 +375,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_seed_is_deterministic",
       "outcome": "passed",
-      "duration_ms": 1117.1,
+      "duration_ms": 1401.3,
       "message": ""
     },
     {
@@ -386,7 +386,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_one_accepted_offer_per_cycle",
       "outcome": "passed",
-      "duration_ms": 7.4,
+      "duration_ms": 9.1,
       "message": ""
     },
     {
@@ -397,7 +397,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_no_overlapping_interviews",
       "outcome": "passed",
-      "duration_ms": 12.3,
+      "duration_ms": 11.4,
       "message": ""
     },
     {
@@ -408,7 +408,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_applications_meet_eligibility",
       "outcome": "passed",
-      "duration_ms": 12.3,
+      "duration_ms": 10.5,
       "message": ""
     },
     {
@@ -419,7 +419,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_timestamps_consistent",
       "outcome": "passed",
-      "duration_ms": 9.6,
+      "duration_ms": 6.5,
       "message": ""
     },
     {
@@ -430,7 +430,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_offers_mark_applications",
       "outcome": "passed",
-      "duration_ms": 8.9,
+      "duration_ms": 5.8,
       "message": ""
     },
     {
@@ -441,7 +441,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_every_job_has_exactly_one_subtype",
       "outcome": "passed",
-      "duration_ms": 7.8,
+      "duration_ms": 7.1,
       "message": ""
     },
     {
@@ -452,7 +452,7 @@
       "module": "data",
       "nodeid": "tests/test_data.py::test_round_progression",
       "outcome": "passed",
-      "duration_ms": 5.0,
+      "duration_ms": 4.3,
       "message": ""
     },
     {
@@ -463,7 +463,7 @@
       "module": "performance",
       "nodeid": "tests/test_performance.py::test_composite_index_speedup",
       "outcome": "passed",
-      "duration_ms": 1065.0,
+      "duration_ms": 1013.6,
       "message": ""
     },
     {
@@ -474,7 +474,7 @@
       "module": "performance",
       "nodeid": "tests/test_performance.py::test_partial_index_smaller",
       "outcome": "passed",
-      "duration_ms": 988.2,
+      "duration_ms": 869.0,
       "message": ""
     },
     {
@@ -485,7 +485,7 @@
       "module": "performance",
       "nodeid": "tests/test_performance.py::test_leading_column_rule",
       "outcome": "passed",
-      "duration_ms": 965.9,
+      "duration_ms": 792.6,
       "message": ""
     },
     {
@@ -496,7 +496,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_all_five_queries_parsed",
       "outcome": "passed",
-      "duration_ms": 0.2,
+      "duration_ms": 0.1,
       "message": ""
     },
     {
@@ -507,7 +507,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_placement_status_matches_offers",
       "outcome": "passed",
-      "duration_ms": 51.0,
+      "duration_ms": 36.4,
       "message": ""
     },
     {
@@ -518,7 +518,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_job_details_one_pay_per_job",
       "outcome": "passed",
-      "duration_ms": 13.5,
+      "duration_ms": 12.6,
       "message": ""
     },
     {
@@ -529,7 +529,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q1_selectivity",
       "outcome": "passed",
-      "duration_ms": 27.4,
+      "duration_ms": 22.2,
       "message": ""
     },
     {
@@ -540,7 +540,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q2_talent_match",
       "outcome": "passed",
-      "duration_ms": 23.7,
+      "duration_ms": 18.8,
       "message": ""
     },
     {
@@ -551,7 +551,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q2_division_equals_counting",
       "outcome": "passed",
-      "duration_ms": 55.3,
+      "duration_ms": 33.9,
       "message": ""
     },
     {
@@ -562,7 +562,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q3_ranking",
       "outcome": "passed",
-      "duration_ms": 31.0,
+      "duration_ms": 32.0,
       "message": ""
     },
     {
@@ -573,7 +573,7 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q4_running_total",
       "outcome": "passed",
-      "duration_ms": 15.8,
+      "duration_ms": 16.2,
       "message": ""
     },
     {
@@ -584,18 +584,18 @@
       "module": "queries",
       "nodeid": "tests/test_queries.py::test_q5_hidden_gems",
       "outcome": "passed",
-      "duration_ms": 53.1,
+      "duration_ms": 53.4,
       "message": ""
     },
     {
       "id": "TC-SCH-01",
       "requirement": "Design",
-      "title": "The schema contains exactly the 22 designed tables",
+      "title": "The schema contains exactly the 22 designed tables, plus the 2 analytics tables",
       "detail": "",
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_table_count",
       "outcome": "passed",
-      "duration_ms": 10.1,
+      "duration_ms": 8.2,
       "message": ""
     },
     {
@@ -606,18 +606,18 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_every_table_has_primary_key",
       "outcome": "passed",
-      "duration_ms": 8.4,
+      "duration_ms": 9.1,
       "message": ""
     },
     {
       "id": "TC-SCH-03",
       "requirement": "Referential integrity",
-      "title": "All 30 designed foreign keys exist",
+      "title": "All 30 designed foreign keys exist, plus 2 on the analytics tables",
       "detail": "Includes the composite FKs used for disjointness, the sponsor category, the recruiter-company consistency rule and the interview aggregation.",
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_foreign_keys_present",
       "outcome": "passed",
-      "duration_ms": 6.0,
+      "duration_ms": 5.4,
       "message": ""
     },
     {
@@ -628,7 +628,7 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_foreign_keys_are_indexed",
       "outcome": "passed",
-      "duration_ms": 7.6,
+      "duration_ms": 5.9,
       "message": ""
     },
     {
@@ -639,7 +639,7 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_check_constraints_present",
       "outcome": "passed",
-      "duration_ms": 5.7,
+      "duration_ms": 6.0,
       "message": ""
     },
     {
@@ -650,7 +650,7 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_exclusion_constraint_present",
       "outcome": "passed",
-      "duration_ms": 4.5,
+      "duration_ms": 3.6,
       "message": ""
     },
     {
@@ -661,18 +661,18 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_identity_sequences_ahead_of_data",
       "outcome": "passed",
-      "duration_ms": 36.4,
+      "duration_ms": 24.7,
       "message": ""
     },
     {
       "id": "TC-SCH-08",
       "requirement": "Views",
-      "title": "Both views (v_job_details, v_placement_status) exist",
+      "title": "The two operational views and the two analytics views exist",
       "detail": "",
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_views_exist",
       "outcome": "passed",
-      "duration_ms": 9.4,
+      "duration_ms": 8.1,
       "message": ""
     },
     {
@@ -683,7 +683,7 @@
       "module": "schema",
       "nodeid": "tests/test_schema.py::test_triggers_installed",
       "outcome": "passed",
-      "duration_ms": 7.8,
+      "duration_ms": 7.4,
       "message": ""
     },
     {
@@ -705,7 +705,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_readonly_can_read_granted_tables",
       "outcome": "passed",
-      "duration_ms": 6.4,
+      "duration_ms": 7.9,
       "message": ""
     },
     {
@@ -716,7 +716,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_readonly_cannot_read_other_tables",
       "outcome": "passed",
-      "duration_ms": 5.8,
+      "duration_ms": 8.5,
       "message": ""
     },
     {
@@ -727,7 +727,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_readonly_cannot_write",
       "outcome": "passed",
-      "duration_ms": 9.6,
+      "duration_ms": 32.9,
       "message": ""
     },
     {
@@ -738,7 +738,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_readonly_cannot_read_server_files",
       "outcome": "passed",
-      "duration_ms": 1.6,
+      "duration_ms": 1.8,
       "message": ""
     },
     {
@@ -749,7 +749,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_unsafe_search_leaks_everything",
       "outcome": "passed",
-      "duration_ms": 52.2,
+      "duration_ms": 55.1,
       "message": ""
     },
     {
@@ -760,7 +760,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_safe_search_treats_input_as_data",
       "outcome": "passed",
-      "duration_ms": 47.2,
+      "duration_ms": 51.5,
       "message": ""
     },
     {
@@ -771,7 +771,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_union_injection_exposes_other_columns",
       "outcome": "passed",
-      "duration_ms": 48.2,
+      "duration_ms": 51.1,
       "message": ""
     },
     {
@@ -782,7 +782,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_destructive_injection_is_contained",
       "outcome": "passed",
-      "duration_ms": 160.6,
+      "duration_ms": 47.7,
       "message": ""
     },
     {
@@ -793,7 +793,7 @@
       "module": "security",
       "nodeid": "tests/test_security.py::test_parameterised_procedure_is_injection_safe",
       "outcome": "passed",
-      "duration_ms": 8.1,
+      "duration_ms": 5.9,
       "message": ""
     },
     {
@@ -804,7 +804,7 @@
       "module": "transactions",
       "nodeid": "tests/test_transactions.py::test_rollback_undoes_cascade",
       "outcome": "passed",
-      "duration_ms": 32.9,
+      "duration_ms": 31.7,
       "message": ""
     },
     {
@@ -815,7 +815,7 @@
       "module": "transactions",
       "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_blocks",
       "outcome": "passed",
-      "duration_ms": 861.8,
+      "duration_ms": 864.3,
       "message": ""
     },
     {
@@ -826,7 +826,7 @@
       "module": "transactions",
       "nodeid": "tests/test_transactions.py::test_concurrent_acceptance_serialises",
       "outcome": "passed",
-      "duration_ms": 817.4,
+      "duration_ms": 908.9,
       "message": ""
     },
     {
@@ -837,7 +837,7 @@
       "module": "transactions",
       "nodeid": "tests/test_transactions.py::test_deferred_constraint_at_commit",
       "outcome": "passed",
-      "duration_ms": 106.4,
+      "duration_ms": 213.3,
       "message": ""
     },
     {
@@ -848,7 +848,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_below_cutoff",
       "outcome": "passed",
-      "duration_ms": 10.7,
+      "duration_ms": 10.6,
       "message": ""
     },
     {
@@ -859,7 +859,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_opted_out",
       "outcome": "passed",
-      "duration_ms": 9.3,
+      "duration_ms": 8.8,
       "message": ""
     },
     {
@@ -870,7 +870,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_after_deadline",
       "outcome": "passed",
-      "duration_ms": 12.2,
+      "duration_ms": 8.9,
       "message": ""
     },
     {
@@ -881,7 +881,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_ineligible_program",
       "outcome": "passed",
-      "duration_ms": 19.2,
+      "duration_ms": 18.4,
       "message": ""
     },
     {
@@ -892,7 +892,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_backlogs",
       "outcome": "passed",
-      "duration_ms": 19.1,
+      "duration_ms": 19.0,
       "message": ""
     },
     {
@@ -903,7 +903,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_rejects_already_placed",
       "outcome": "passed",
-      "duration_ms": 13.9,
+      "duration_ms": 15.8,
       "message": ""
     },
     {
@@ -914,7 +914,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_accepts_eligible_application",
       "outcome": "passed",
-      "duration_ms": 20.8,
+      "duration_ms": 20.3,
       "message": ""
     },
     {
@@ -925,7 +925,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_offer_requires_open_application",
       "outcome": "passed",
-      "duration_ms": 6.8,
+      "duration_ms": 6.2,
       "message": ""
     },
     {
@@ -936,7 +936,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_offer_marks_application_offered",
       "outcome": "passed",
-      "duration_ms": 18.5,
+      "duration_ms": 17.3,
       "message": ""
     },
     {
@@ -947,7 +947,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_accept_cascade",
       "outcome": "passed",
-      "duration_ms": 44.6,
+      "duration_ms": 29.8,
       "message": ""
     },
     {
@@ -958,7 +958,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_view_reflects_acceptance",
       "outcome": "passed",
-      "duration_ms": 40.8,
+      "duration_ms": 42.1,
       "message": ""
     },
     {
@@ -969,7 +969,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_cannot_accept_declined_offer",
       "outcome": "passed",
-      "duration_ms": 35.2,
+      "duration_ms": 24.4,
       "message": ""
     },
     {
@@ -980,7 +980,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_one_offer_rule_is_per_cycle",
       "outcome": "passed",
-      "duration_ms": 36.1,
+      "duration_ms": 29.7,
       "message": ""
     },
     {
@@ -991,7 +991,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_cannot_accept_after_deadline",
       "outcome": "passed",
-      "duration_ms": 11.6,
+      "duration_ms": 10.4,
       "message": ""
     },
     {
@@ -1002,7 +1002,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_expire_stale_offers",
       "outcome": "passed",
-      "duration_ms": 20.4,
+      "duration_ms": 19.1,
       "message": ""
     },
     {
@@ -1013,7 +1013,7 @@
       "module": "triggers",
       "nodeid": "tests/test_triggers.py::test_apply_unknown_roll",
       "outcome": "passed",
-      "duration_ms": 7.1,
+      "duration_ms": 4.9,
       "message": ""
     }
   ]
